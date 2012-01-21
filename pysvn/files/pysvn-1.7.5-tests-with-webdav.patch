@@ -1,0 +1,30 @@
+--- trunk/pysvn/Extension/Tests/benchmark_diff.py	2009-01-10 07:35:03-0700	1103
++++ trunk/pysvn/Extension/Tests/benchmark_diff.py	2011-06-26 04:54:25-0700	1369
+@@ -1,6 +1,6 @@
+ '''
+  ====================================================================
+- Copyright (c) 2005-2009 Barry A Scott.  All rights reserved.
++ Copyright (c) 2005-2011 Barry A Scott.  All rights reserved.
+ 
+  This software is licensed as described in the file LICENSE.txt,
+  which you should have received as part of this distribution.
+@@ -78,6 +78,8 @@
+         dateUnixLs2_re = re.compile(r'[JFMASOND][a-z][a-z]  \d\d\d\d')
+         uuid_re = re.compile(r'[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}')
+         checksum_re = re.compile(r'[0-9a-z]{32}')
++        tmpSvnFile_re = re.compile(r'/.svn/tmp/tempfile.\d+.tmp|/.svn/tmp/svn-[a-zA-Z0-9]+')
++
+ 
+         self.replacement_list = [
+                         (dateAlphaNumeric_re,          '<alpha-date-and-time>'),
+@@ -86,9 +88,9 @@
+                         (checksum_re,                  '<checksum>'),
+                         (dateUnixLs1_re,               '<ls-date-and-time>'),
+                         (dateUnixLs2_re,               '<ls-date-and-time>'),
++                        (tmpSvnFile_re,                '/.svn/tmp/<svn-tempfile>'),
+                         ]
+ 
+-
+         if self.workdir:
+             workdir_re1 = LiteralCaseBlindSearch( self.workdir )
+             workdir_re2 = LiteralCaseBlindSearch( os.path.realpath( self.workdir ) )
