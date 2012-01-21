@@ -1,0 +1,131 @@
+From d3a300383c1973efb37dd4baf3668f0a6a75c9b2 Mon Sep 17 00:00:00 2001
+From: Michal Hrusecky <Michal@Hrusecky.net>
+Date: Mon, 13 Dec 2010 16:22:37 +0100
+Subject: [PATCH] Wildcards substitutions in destinations of rules
+
+Rules can be written using wildcards, but destinations had to be static.
+This patch adds support for following strings in destination:
+
+   %u - uid
+   %U - username, uid in case of error
+   %g - gid
+   %G - group name, gid in case of error
+   %p - pid
+   %P - proccess name, pid in case of error
+
+So more general rules can be specified using wildcards. Example rule can
+be:
+
+*@users        *     %G/%U
+
+This will put all users in their own cgroups named by their login and 
+group.
+
+Signed-off-by: Michal Hrusecky <Michal@Hrusecky.net>
+---
+ src/api.c |   82 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 files changed, 81 insertions(+), 1 deletions(-)
+
+diff --git a/src/api.c b/src/api.c
+index 859190a..29b8627 100644
+--- a/src/api.c
++++ b/src/api.c
+@@ -2366,6 +2366,12 @@ int cgroup_change_cgroup_flags(uid_t uid, gid_t gid,
+ 	/* Temporary pointer to a rule */
+ 	struct cgroup_rule *tmp = NULL;
+ 
++	/* Temporary variables for destination substitution */
++	char newdest[FILENAME_MAX];
++	int i, j;
++	struct passwd * user_info;
++	struct group  * group_info;
++
+ 	/* Return codes */
+ 	int ret = 0;
+ 
+@@ -2418,7 +2424,81 @@ int cgroup_change_cgroup_flags(uid_t uid, gid_t gid,
+ 	do {
+ 		cgroup_dbg("Executing rule %s for PID %d... ", tmp->username,
+ 								pid);
+-		ret = cgroup_change_cgroup_path(tmp->destination,
++		// Destination substitutions
++		for(j = i = 0; i < strlen(tmp->destination); i++, j++) {
++			if(tmp->destination[i] == '%') {
++				switch(tmp->destination[++i]) {
++					case 'u':
++						j += snprintf(newdest+j,
++							FILENAME_MAX-j,
++							"%d", uid);
++						i++;
++						break;
++					case 'U':
++						user_info = getpwuid(uid);
++						if(user_info) {
++							j += snprintf(newdest+j,
++								FILENAME_MAX-j,
++								"%s",
++								user_info ->
++								pw_name);
++						} else {
++							j += snprintf(newdest+j,
++								FILENAME_MAX-j,
++								"%d", uid);
++						}
++						i++;
++						break;
++					case 'g':
++						j += snprintf(newdest+j,
++							FILENAME_MAX-j,
++							"%d", gid);
++						i++;
++						break;
++					case 'G':
++						group_info = getgrgid(gid);
++						if(group_info) {
++							j += snprintf(newdest+j,
++								FILENAME_MAX-j,
++								"%s",
++								group_info ->
++								gr_name);
++						} else {
++							j += snprintf(newdest+j,
++								FILENAME_MAX-j,
++								"%d", gid);
++						}
++						i++;
++						break;
++					case 'p':
++						j += snprintf(newdest+j,
++							FILENAME_MAX-j,
++							"%d", pid);
++						i++;
++						break;
++					case 'P':
++						if(procname) {
++							j += snprintf(newdest+j,
++								FILENAME_MAX-j,
++								"%s",
++								procname);
++						} else {
++							j += snprintf(newdest+j,
++								FILENAME_MAX-j,
++								"%d", pid);
++						}
++						i++;
++						break;
++					default:
++						newdest[j++] = '%';
++				}
++			}
++			if(tmp->destination[i] == '\\')
++				i++;
++			newdest[j] = tmp->destination[i];
++		}
++		newdest[j] = 0;
++		ret = cgroup_change_cgroup_path(newdest,
+ 				pid, (const char * const *)tmp->controllers);
+ 		if (ret) {
+ 			cgroup_dbg("FAILED! (Error Code: %d)\n", ret);
+-- 
+1.7.3.3
+
