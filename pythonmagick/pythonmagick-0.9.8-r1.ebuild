@@ -22,7 +22,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~ppc ~x86"
 IUSE=""
 
-RDEPEND=">=dev-libs/boost-1.48[python]
+RDEPEND=">=dev-libs/boost-1.52[python]
 	>=media-gfx/imagemagick-6.4"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
@@ -50,7 +50,7 @@ src_configure() {
 		econf \
 			--disable-static \
 			--with-boost-python="boost_python-${PYTHON_ABI}" \
-			--with-boost-libdir="$(boost-utils_get_libdir)"
+			--with-boost-libdir="${EPREFIX}/usr/$(get_libdir)"
 	}
 	python_execute_function -s configuration
 }
