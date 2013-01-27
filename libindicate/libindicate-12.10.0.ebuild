@@ -1,6 +1,6 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-libs/libindicate/libindicate-12.10.0.ebuild,v 1.1 2012/07/21 18:28:51 ssuominen Exp $
+# $Header: $
 
 EAPI=4
 
@@ -8,7 +8,7 @@ PYTHON_DEPEND="python? 2"
 
 AYATANA_VALA_VERSION=0.16
 
-inherit autotools eutils flag-o-matic python
+inherit autotools eutils flag-o-matic # python
 
 DESCRIPTION="A library to raise flags on DBus for other components of the desktop to pick up and visualize"
 HOMEPAGE="http://launchpad.net/libindicate"
