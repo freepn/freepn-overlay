@@ -1,0 +1,20 @@
+--- setup.py.orig	2014-12-27 12:10:20.000000000 -0800
++++ setup.py	2014-12-27 12:13:32.000000000 -0800
+@@ -9,6 +9,7 @@
+ from distutils.util import change_root, newer
+ import codecs
+ import imp
++from imp import reload
+ 
+ def get_version():
+     " Get version & version_info without importing markdown.__init__ "
+@@ -22,6 +23,9 @@
+ 
+ version, version_info = get_version()
+ 
++# force reload of stupid monkey-patched crap
++reload(setuptools.dist)
++
+ # Get development Status for classifiers
+ dev_status_map = {
+     'alpha': '3 - Alpha',
