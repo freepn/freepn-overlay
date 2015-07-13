@@ -1,11 +1,11 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
 EAPI="5"
 AUTOTOOLS_AUTORECONF=1
 AUTOTOOLS_PRUNE_LIBTOOL_FILES="modules"
-PYTHON_COMPAT=( python{2_7,3_2,3_3,3_4} )
+PYTHON_COMPAT=( python{2_7,3_3,3_4} )
 WANT_AUTOMAKE="1.12"
 
 inherit autotools-utils eutils python-r1
@@ -37,6 +37,7 @@ S="${WORKDIR}/${MY_P}"
 PATCHES=(
 	"${FILESDIR}/${PN}-0.9.10-Makefile.am.patch"
 	"${FILESDIR}/${PN}-0.9.10-ax_boost_python.patch"
+	"${FILESDIR}/${P}-const.patch"
 )
 
 src_configure() {
