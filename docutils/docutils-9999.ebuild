@@ -11,7 +11,7 @@ DESCRIPTION="Python Documentation Utilities"
 HOMEPAGE="http://docutils.sourceforge.net/ https://pypi.python.org/pypi/docutils"
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/VCTLabs/docutils.git"
-	EGIT_BRANCH="master"
+	EGIT_BRANCH="rst2odt-svg-support"
 	inherit git-r3
 else
 	SRC_URI="mirror://sourceforge/${PN}/${P}.tar.gz"
