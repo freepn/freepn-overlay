@@ -4,7 +4,7 @@
 
 EAPI="2"
 
-inherit eutils bash-completion
+inherit eutils bash-completion-r1
 
 DESCRIPTION="D-Bus bindings for glib"
 HOMEPAGE="http://dbus.freedesktop.org/"
