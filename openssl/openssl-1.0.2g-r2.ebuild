@@ -16,7 +16,10 @@ LICENSE="openssl"
 # support and thus breaks nearly every openssl consumer (see bug #575548)
 SLOT="0"
 KEYWORDS="alpha amd64 arm arm64 hppa ia64 m68k ~mips ppc ppc64 s390 sh sparc x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~arm-linux ~x86-linux"
-IUSE="+asm bindist cryptodev gmp kerberos rfc3779 sctp cpu_flags_x86_sse2 static-libs test +tls-heartbeat vanilla zlib"
+IUSE="+asm bindist cryptodev cryptodev-8192 gmp kerberos rfc3779 sctp cpu_flags_x86_sse2 static-libs test +tls-heartbeat vanilla zlib"
+REQUIRED_USE="
+        cryptodev-8192? ( cryptodev )
+"
 RESTRICT="!bindist? ( bindist )"
 
 RDEPEND=">=app-misc/c_rehash-1.7-r1
@@ -56,13 +59,12 @@ src_prepare() {
 		epatch "${FILESDIR}"/${PN}-1.0.2-ipv6.patch
 		epatch "${FILESDIR}"/${PN}-1.0.2a-x32-asm.patch #542618
 		epatch "${FILESDIR}"/${PN}-1.0.1p-default-source.patch #554338
+		if use cryptodev ; then
+#			epatch "${FILESDIR}"/${PN}-1.0.2g-fix-signature-generation.patch
+			epatch "${FILESDIR}"/${PN}-1.0.2g-fix-copying-evp-contexts.patch
+		fi
 
 		epatch_user #332661
-	fi
-
-	if use cryptodev ; then
-		epatch "${FILESDIR}"/0001-cryptodev-Fix-issue-with-signature-generation.patch
-		epatch "${FILESDIR}"/0002-cryptodev-allow-copying-EVP-contexts.patch
 	fi
 
 	# disable fips in the build
@@ -98,7 +100,12 @@ src_prepare() {
 	append-flags $(test-flags-CC -Wa,--noexecstack)
 	append-cppflags -DOPENSSL_NO_BUF_FREELISTS
 
-	use cryptodev && append-cppflags -DHAVE_CRYPTODEV -DUSE_CRYPTODEV_DIGESTS
+	if use cryptodev ; then
+		append-cppflags -DHAVE_CRYPTODEV
+		# enable for large data only (slightly slower otherwise)
+		use cryptodev-8192 && append-cppflags \
+			-DUSE_CRYPTODEV_DIGESTS -DHASH_MAX_LEN=64
+	fi
 
 	sed -i '1s,^:$,#!'${EPREFIX}'/usr/bin/perl,' Configure #141906
 	# The config script does stupid stuff to prompt the user.  Kill it.
