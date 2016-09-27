@@ -1,0 +1,12 @@
+openssl_conf = openssl_def
+
+[openssl_def]
+engines = openssl_engines
+
+[openssl_engines]
+af_alg = af_alg_engine
+
+[af_alg_engine]
+default_algorithms = ALL
+CIPHERS=aes-128-cbc aes-192-cbc aes-256-cbc des-cbc des-ede3-cbc
+DIGESTS=md4 md5 sha1 sha224 sha256 sha512

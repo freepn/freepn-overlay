@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI="5"
 
 inherit eutils flag-o-matic toolchain-funcs multilib multilib-minimal
 
@@ -12,13 +12,11 @@ HOMEPAGE="http://www.openssl.org/"
 SRC_URI="mirror://openssl/source/${MY_P}.tar.gz"
 
 LICENSE="openssl"
-# subslot set to 1.0.2g version as this is the first release without SSLv2
-# support and thus breaks nearly every openssl consumer (see bug #575548)
 SLOT="0"
 KEYWORDS="alpha amd64 arm arm64 hppa ia64 m68k ~mips ppc ppc64 s390 sh sparc x86 ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~arm-linux ~x86-linux"
-IUSE="af_alg +asm bindist cryptodev cryptodev-8192 gmp kerberos rfc3779 sctp cpu_flags_x86_sse2 static-libs test +tls-heartbeat vanilla zlib"
+IUSE="af_alg +asm bindist cryptodev cryptodev-8192 gmp kerberos rfc3779 sctp cpu_flags_x86_sse2 sslv2 +sslv3 static-libs test +tls-heartbeat vanilla zlib"
 REQUIRED_USE="
-        cryptodev-8192? ( cryptodev )
+	cryptodev-8192? ( cryptodev )
 "
 RESTRICT="!bindist? ( bindist )"
 
@@ -28,6 +26,7 @@ RDEPEND=">=app-misc/c_rehash-1.7-r1
 	kerberos? ( >=app-crypt/mit-krb5-1.11.4[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}
 	>=dev-lang/perl-5
+	af_alg? ( >=app-crypt/af_alg-0.0.1[debug,${MULTILIB_USEDEP}] )
 	sctp? ( >=net-misc/lksctp-tools-1.0.12 )
 	test? (
 		sys-apps/diffutils
@@ -48,6 +47,10 @@ src_prepare() {
 	# Make sure we only ever touch Makefile.org and avoid patching a file
 	# that gets blown away anyways by the Configure script in src_configure
 	rm -f Makefile
+
+	# bugs 585142 and 585276
+	epatch "${FILESDIR}"/${P}-CVE-2016-2177.patch
+	epatch "${FILESDIR}"/${P}-CVE-2016-2178.patch
 
 	if ! use vanilla ; then
 		epatch "${FILESDIR}"/${PN}-1.0.0a-ldflags.patch #327421
@@ -101,13 +104,6 @@ src_prepare() {
 	append-flags -fno-strict-aliasing
 	append-flags $(test-flags-CC -Wa,--noexecstack)
 	append-cppflags -DOPENSSL_NO_BUF_FREELISTS
-
-	if use cryptodev ; then
-		append-cppflags -DHAVE_CRYPTODEV
-		# enable for large data only (slightly slower otherwise)
-		use cryptodev-8192 && append-cppflags \
-			-DUSE_CRYPTODEV_DIGESTS -DHASH_MAX_LEN=64
-	fi
 
 	sed -i '1s,^:$,#!'${EPREFIX}'/usr/bin/perl,' Configure #141906
 	# The config script does stupid stuff to prompt the user.  Kill it.
@@ -163,12 +159,13 @@ multilib_src_configure() {
 		enable-mdc2 \
 		enable-rc5 \
 		enable-tlsext \
-		enable-ssl2 \
 		$(use_ssl asm) \
 		$(use_ssl gmp gmp -lgmp) \
 		$(use_ssl kerberos krb5 --with-krb5-flavor=${krb5}) \
 		$(use_ssl rfc3779) \
 		$(use_ssl sctp) \
+		$(use_ssl sslv2 ssl2) \
+		$(use_ssl sslv3 ssl3) \
 		$(use_ssl tls-heartbeat heartbeats) \
 		$(use_ssl zlib) \
 		--prefix="${EPREFIX}"/usr \
@@ -204,6 +201,17 @@ multilib_src_compile() {
 
 multilib_src_test() {
 	emake -j1 test
+
+	if use af_alg ; then
+		install "${FILESDIR}"/af_alg.cnf "${WORKDIR}"/
+		export OPENSSL_CONF="${WORKDIR}"/af_alg.cnf
+		cd "${BUILD_DIR}"/test
+		ebegin 'Starting af_alg evp test...'
+		LD_LIBRARY_PATH="${BUILD_DIR}:${LD_LIBRARY_PATH}" \
+			../util/shlib_wrap.sh ./evp_test  evptests.txt
+		STATUS=$?
+		eend ${STATUS}
+	fi
 }
 
 multilib_src_install() {
@@ -260,16 +268,8 @@ multilib_src_install_all() {
 	keepdir ${SSL_CNF_DIR}/private
 }
 
-pkg_preinst() {
-	has_version ${CATEGORY}/${PN}:0.9.8 && return 0
-	preserve_old_lib /usr/$(get_libdir)/lib{crypto,ssl}.so.0.9.8
-}
-
 pkg_postinst() {
 	ebegin "Running 'c_rehash ${EROOT%/}${SSL_CNF_DIR}/certs/' to rebuild hashes #333069"
 	c_rehash "${EROOT%/}${SSL_CNF_DIR}/certs" >/dev/null
 	eend $?
-
-	has_version ${CATEGORY}/${PN}:0.9.8 && return 0
-	preserve_old_lib_notify /usr/$(get_libdir)/lib{crypto,ssl}.so.0.9.8
 }
