@@ -2,12 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="3"
-PYTHON_DEPEND="*"
+EAPI="5"
+
+PYTHON_COMPAT=( python2_7 )
 SUPPORT_PYTHON_ABIS="1"
 RESTRICT_PYTHON_ABIS="*-jython"
 
-inherit eutils python toolchain-funcs
+inherit eutils python-r1 toolchain-funcs
 
 DESCRIPTION="Object-oriented python bindings for subversion"
 HOMEPAGE="http://pysvn.tigris.org/"
