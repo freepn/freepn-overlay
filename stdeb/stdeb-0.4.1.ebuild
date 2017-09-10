@@ -1,13 +1,11 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=2
+EAPI=5
+PYTHON_COMPAT=( python2_7 )
 
-SUPPORT_PYTHON_ABIS="1"
-PYTHON_DEPEND="2:2.5:2.7"
-
-inherit distutils eutils
+inherit distutils-r1 eutils
 
 commit="246b2b7"
 MY_PN="astraw-${PN}-${commit}"

@@ -2,12 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/dev-python/tagpy/tagpy-0.94.8-r1.ebuild,v 1.9 2012/11/09 21:03:35 blueness Exp $
 
-EAPI="4"
-PYTHON_DEPEND="2"
-SUPPORT_PYTHON_ABIS="1"
-RESTRICT_PYTHON_ABIS="2.5 3.* *-jython 2.7-pypy-*"
+EAPI="5"
+PYTHON_COMPAT=( python2_7 )
 
-inherit distutils
+inherit distutils-r1
 
 DESCRIPTION="Python Bindings for TagLib"
 HOMEPAGE="http://mathema.tician.de//software/tagpy http://pypi.python.org/pypi/tagpy"
