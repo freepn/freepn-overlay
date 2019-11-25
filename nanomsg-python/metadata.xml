@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>nerdboy@gentoo.org</email>
+    <name>Stephen Arnold</name>
+  </maintainer>
+  <upstream>
+    <remote-id type="github">sarnold/nanomsg-python</remote-id>
+  </upstream>
+  <longdescription lang="en">
+    nanomsg bindings for python with multiple backends (CPython and ctypes)
+  </longdescription>
+</pkgmetadata>
