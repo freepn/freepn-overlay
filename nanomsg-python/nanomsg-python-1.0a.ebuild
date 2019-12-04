@@ -5,18 +5,21 @@ EAPI=6
 
 PYTHON_COMPAT=( python2_7 python{3_5,3_6,3_7} )
 
+# note the a is to denote the big patch on top of upstream 1.0 release
+MY_PV="${PV/a/}"
+
 inherit distutils-r1
 
-DESCRIPTION=""
+DESCRIPTION="nanomsg wrapper for python with multiple backends (CPython and ctypes)"
 HOMEPAGE="https://github.com/tonysimpson/nanomsg-python"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/tonysimpson/nanomsg-python.git"
+	EGIT_REPO_URI="https://github.com/sarnold/nanomsg-python.git"
 	EGIT_BRANCH="python-tests"
 	inherit git-r3
 	KEYWORDS=""
 else
-	SRC_URI="https://github.com/tonysimpson/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/tonysimpson/${PN}/archive/${MY_PV}.tar.gz -> ${PN}-${MY_PV}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
@@ -31,6 +34,10 @@ DEPEND="${PYTHON_DEPS}
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
 "
+
+PATCHES=( "${FILESDIR}/updates-from-master-plus-intpacker-fix.patch" )
+
+S="${WORKDIR}/${PN}-${MY_PV}"
 
 python_test() {
 	py.test -v || die
