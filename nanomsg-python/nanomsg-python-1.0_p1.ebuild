@@ -5,8 +5,8 @@ EAPI=6
 
 PYTHON_COMPAT=( python2_7 python{3_5,3_6,3_7} )
 
-# note the a is to denote the big patch on top of upstream 1.0 release
-MY_PV="${PV/a/}"
+# note the p1 is to denote the big patch on top of upstream 1.0 release
+MY_PV="${PV/_p1/}"
 
 inherit distutils-r1
 
@@ -32,7 +32,7 @@ RDEPEND="${PYTHON_DEPS}"
 DEPEND="${PYTHON_DEPS}
 	dev-libs/nanomsg:=
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
+	test? ( dev-python/nose[${PYTHON_USEDEP}] )
 "
 
 PATCHES=( "${FILESDIR}/updates-from-master-plus-intpacker-fix.patch" )
@@ -40,5 +40,5 @@ PATCHES=( "${FILESDIR}/updates-from-master-plus-intpacker-fix.patch" )
 S="${WORKDIR}/${PN}-${MY_PV}"
 
 python_test() {
-	py.test -v || die
+	"${EPYTHON}" -m nose -sv . || die "Testing failed with ${EPYTHON}"
 }

@@ -11,13 +11,14 @@ DESCRIPTION=""
 HOMEPAGE="https://github.com/tonysimpson/nanomsg-python"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/sarnold/nanomsg-python.git"
-	EGIT_BRANCH="python-tests"
+	EGIT_REPO_URI="https://github.com/tonysimpson/nanomsg-python.git"
+	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
 else
-	SRC_URI="https://github.com/sarnold/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/tonysimpson/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+	PATCHES=( "${FILESDIR}/${P}-change-LINGER-to-SNDBUF.patch" )
 fi
 
 LICENSE="MIT"
@@ -29,9 +30,9 @@ RDEPEND="${PYTHON_DEPS}"
 DEPEND="${PYTHON_DEPS}
 	dev-libs/nanomsg:=
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
+	test? ( dev-python/nose[${PYTHON_USEDEP}] )
 "
 
 python_test() {
-	py.test -v || die
+	"${EPYTHON}" -m nose -sv . || die "Testing failed with ${EPYTHON}"
 }
