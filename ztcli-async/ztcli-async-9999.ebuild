@@ -8,10 +8,10 @@ PYTHON_COMPAT=( python{3_5,3_6,3_7} )
 inherit distutils-r1
 
 DESCRIPTION=""
-HOMEPAGE="https://github.com/sarnold/ztcli"
+HOMEPAGE="https://github.com/sarnold/ztcli-async"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/sarnold/ztcli.git"
+	EGIT_REPO_URI="https://github.com/sarnold/ztcli-async.git"
 	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
