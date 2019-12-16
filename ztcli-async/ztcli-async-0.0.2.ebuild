@@ -20,7 +20,7 @@ else
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
-LICENSE="MIT"
+LICENSE="GPL-3.0"
 SLOT="0"
 IUSE=""
 
