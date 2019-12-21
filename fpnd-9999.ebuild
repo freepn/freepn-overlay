@@ -12,7 +12,7 @@ HOMEPAGE="https://github.com/sarnold/fpnd"
 
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/sarnold/fpnd.git"
-	EGIT_BRANCH="master"
+	EGIT_BRANCH="use_prefix"
 	inherit git-r3
 	KEYWORDS=""
 else
@@ -58,6 +58,7 @@ python_install() {
 python_install_all() {
 	distutils-r1_python_install_all
 
+	rm "${EPREFIX}//usr/libexec/fpnd/fpnd.ini"
 	insinto "${EPREFIX}/etc/${PN}"
 	doins "${S}"/etc/"${PN}".ini
 

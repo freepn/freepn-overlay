@@ -11,24 +11,26 @@ index 7c9012b..6e08a6c 100644
 +home_dir = /usr/libexec/fpnd/
 +log_path = /var/log/fpnd/
  pid_path = /run/
-diff --git a/etc/fpnd.openrc b/etc/fpnd.openrc
-index 2fa864f..97050e7 100755
---- a/etc/fpnd.openrc
-+++ b/etc/fpnd.openrc
-@@ -3,7 +3,7 @@
- # Distributed under the terms of the GNU General Public License v2
+diff --git a/etc/fpnd.service b/etc/fpnd.service
+index c7a229f..bf9df09 100644
+--- a/etc/fpnd.service
++++ b/etc/fpnd.service
+@@ -4,8 +4,8 @@ Requires=zerotier-one.service
+ After=zerotier-one.service
  
- description="fpnd - FreePN daemon"
--command="/usr/bin/fpnd.py"
-+command="/usr/sbin/fpnd.py"
- pidfile="/var/run/${SVCNAME}.pid"
- 
- depend() {
+ [Service]
+-ExecStart=/usr/lib/fpnd/fpnd.py start
+-ExecStop=/usr/lib/fpnd/fpnd.py stop
++ExecStart=/usr/sbin/fpnd.py start
++ExecStop=/usr/sbin/fpnd.py stop
+ Type=simple
+ Restart=always
+ RestartSec=5
 diff --git a/setup.py b/setup.py
-index 593f990..f296e70 100644
+index 574880c..157b6da 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -27,14 +27,14 @@ setup(
+@@ -27,13 +27,15 @@ setup(
      name='fpnd',
      packages=['node_tools',],
      data_files=[
@@ -39,11 +41,11 @@ index 593f990..f296e70 100644
 -                      'etc/fpnd.ini',
 -                      'scripts/fpnd.py',
 -                      'scripts/fpn_cache_check.py']),
--        ('bin', ['bin/fpnd']),
 +        ('libexec/fpnd', ['bin/fpn0-down.sh',
 +                          'bin/fpn0-setup.sh',
 +                          'bin/fpn1-down.sh',
 +                          'bin/fpn1-setup.sh',
++                          'etc/fpnd.ini',
 +                          'scripts/fpn_cache_check.py']),
 +    ],
 +    scripts=[
