@@ -12,7 +12,7 @@ HOMEPAGE="https://github.com/sarnold/fpnd"
 
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/sarnold/fpnd.git"
-	EGIT_BRANCH="use_prefix"
+	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
 else
@@ -63,6 +63,8 @@ python_install_all() {
 	doins "${S}"/etc/"${PN}".ini
 
 	newinitd "${S}"/etc/"${PN}".openrc "${PN}"
-
 	use systemd && systemd_dounit "${S}"/etc/"${PN}".service
+
+	insinto "${EPREFIX}/etc/logrotate.d"
+	newins "${S}"/etc/"${PN}".logrotate "${PN}"
 }
