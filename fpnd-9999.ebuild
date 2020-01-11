@@ -8,21 +8,21 @@ PYTHON_REQ_USE="sqlite"
 inherit distutils-r1 systemd user
 
 DESCRIPTION="Python package for fpnd node scripts"
-HOMEPAGE="https://github.com/sarnold/fpnd"
+HOMEPAGE="https://github.com/freepn/fpnd"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/sarnold/fpnd.git"
-	EGIT_BRANCH="master"
+	EGIT_REPO_URI="https://github.com/freepn/fpnd.git"
+	EGIT_BRANCH="net-conf"
 	inherit git-r3
 	KEYWORDS=""
 else
-	SRC_URI="https://github.com/sarnold/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/freepn/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
 LICENSE="AGPL-3"
 SLOT="0"
-IUSE="systemd"
+IUSE="systemd test"
 
 RDEPEND="${PYTHON_DEPS}
 	net-misc/zerotier"
@@ -33,9 +33,12 @@ DEPEND="${PYTHON_DEPS}
 	dev-python/diskcache[${PYTHON_USEDEP}]
 	dev-libs/ztcli-async[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
+	test? ( >=dev-python/mock-2.0.0[${PYTHON_USEDEP}]
+		>=dev-python/pytest-3.0.3[${PYTHON_USEDEP}]
+		>=dev-python/coverage-4.5.2[${PYTHON_USEDEP}] )
 "
 
-RESTRICT="mirror test"
+RESTRICT="mirror"
 
 pkg_setup() {
 	enewgroup ${PN}
@@ -67,4 +70,12 @@ python_install_all() {
 
 	insinto "${EPREFIX}/etc/logrotate.d"
 	newins "${S}"/etc/"${PN}".logrotate "${PN}"
+}
+
+python_test() {
+	# Run all but integration tests (requires tox magic)
+	#PYTHONPATH="." py.test -v --ignore-glob="tests/integration/*.py"
+	distutils_install_for_testing
+	PYTHONPATH="${TEST_DIR}/lib:${PYTHONPATH}" py.test test -v \
+		|| die "tests failed"
 }
