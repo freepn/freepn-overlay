@@ -8,19 +8,19 @@ PYTHON_COMPAT=( python{3_5,3_6,3_7} )
 inherit distutils-r1
 
 DESCRIPTION="A Python aio client wrapper for the zerotier-cli node API"
-HOMEPAGE="https://github.com/sarnold/ztcli-async"
+HOMEPAGE="https://github.com/freepn/ztcli-async"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/sarnold/ztcli-async.git"
+	EGIT_REPO_URI="https://github.com/freepn/ztcli-async.git"
 	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
 else
-	SRC_URI="https://github.com/sarnold/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/freepn/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
-LICENSE="GPL-3"
+LICENSE="MIT"
 SLOT="0"
 IUSE=""
 
