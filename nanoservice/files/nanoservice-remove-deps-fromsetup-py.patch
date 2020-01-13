@@ -1,19 +1,18 @@
 diff --git a/setup.py b/setup.py
-index 28e8a15..ad8feb4 100644
+index 693e246..801f7a9 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -37,14 +37,6 @@ setup(
-     description='nanoservice is a small Python library for '
+@@ -48,13 +48,6 @@ setup(
                  'writing lightweight networked services using nanomsg',
      long_description=read_long_description('README.md'),
+     download_url=NANOSERVICE_DOWNLOAD_URL,
 -    install_requires=[
--        'msgpack-python',
--        'nanomsg',
--        'nose',
+-        'msgpack',
+-        'nanomsg @ git+https://github.com/freepn/nanomsg-python@master',
 -    ],
 -    dependency_links=[
--        'git+https://github.com/sarnold/nanomsg-python.git@master#egg=nanomsg',
+-        'git+https://github.com/freepn/nanomsg-python.git@master#egg=nanomsg',
 -    ],
      classifiers=[
-         'License :: OSI Approved :: MIT License',
-         'Programming Language :: Python :: 2.7',
+         "Development Status :: 4 - Beta",
+         "Intended Audience :: Developers",
