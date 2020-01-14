@@ -33,7 +33,9 @@ DEPEND="${PYTHON_DEPS}
 	dev-libs/nanomsg-python[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	dev-python/msgpack[${PYTHON_USEDEP}]
-	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
+	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}]
+		!dev-python/pytest-cases
+	)
 "
 
 PATCHES=( "${FILESDIR}/${PN}-remove-deps-fromsetup-py.patch" )
