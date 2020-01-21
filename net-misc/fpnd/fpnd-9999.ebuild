@@ -1,7 +1,8 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
+
 PYTHON_COMPAT=( python{3_5,3_6,3_7} )
 PYTHON_REQ_USE="sqlite"
 
@@ -12,7 +13,7 @@ HOMEPAGE="https://github.com/freepn/fpnd"
 
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/freepn/fpnd.git"
-	EGIT_BRANCH="net-conf"
+	EGIT_BRANCH="messaging"
 	inherit git-r3
 	KEYWORDS=""
 else
@@ -32,6 +33,7 @@ DEPEND="${PYTHON_DEPS}
 	dev-python/schedule[${PYTHON_USEDEP}]
 	dev-python/diskcache[${PYTHON_USEDEP}]
 	dev-libs/ztcli-async[${PYTHON_USEDEP}]
+	dev-libs/nanoservice[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	test? ( >=dev-python/mock-2.0.0[${PYTHON_USEDEP}]
 		>=dev-python/pytest-3.0.3[${PYTHON_USEDEP}]
@@ -48,6 +50,7 @@ pkg_setup() {
 python_prepare_all() {
 	local PATCHES=(
 		"${FILESDIR}"/${PN}-make-setup-py-and-ini-conform.patch
+		"${FILESDIR}"/fpnd-messaging-test.patch
 	)
 
 	distutils-r1_python_prepare_all
@@ -62,13 +65,13 @@ python_install_all() {
 	distutils-r1_python_install_all
 
 	rm "${EPREFIX}//usr/libexec/fpnd/fpnd.ini"
-	insinto "${EPREFIX}/etc/${PN}"
+	insinto "/etc/${PN}"
 	doins "${S}"/etc/"${PN}".ini
 
 	newinitd "${S}"/etc/"${PN}".openrc "${PN}"
 	use systemd && systemd_dounit "${S}"/etc/"${PN}".service
 
-	insinto "${EPREFIX}/etc/logrotate.d"
+	insinto "/etc/logrotate.d"
 	newins "${S}"/etc/"${PN}".logrotate "${PN}"
 }
 
