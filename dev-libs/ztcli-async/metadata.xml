@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer type="person">
+	<email>nerdboy@gentoo.org</email>
+	<name>Steve Arnold</name>
+</maintainer>
+<longdescription lang="en">
+	A Python async client wrapper for the zerotier-cli node API
+</longdescription>
+<upstream>
+	<remote-id type="github">sarnold/ztcli-async</remote-id>
+</upstream>
+</pkgmetadata>

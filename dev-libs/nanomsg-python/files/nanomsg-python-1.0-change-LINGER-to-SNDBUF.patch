@@ -1,0 +1,56 @@
+From a6d24e5df2a2019200c57075df5dc4b6891c181f Mon Sep 17 00:00:00 2001
+From: Tony Simpson <anthony.simpson@sky.uk>
+Date: Wed, 7 Sep 2016 15:02:06 +0100
+Subject: [PATCH] Changed LINGER to SNDBUF
+
+Not sure why linger has changed, maybe its been removed?
+---
+ tests/test_general_socket_methods.py | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
+
+diff --git a/tests/test_general_socket_methods.py b/tests/test_general_socket_methods.py
+index 1b878ae..50e5a63 100644
+--- a/tests/test_general_socket_methods.py
++++ b/tests/test_general_socket_methods.py
+@@ -8,14 +8,12 @@ set_wrapper_choice(os.environ.get('NANOMSG_PY_TEST_WRAPPER',
+ from nanomsg import (
+     PAIR,
+     Socket,
+-    LINGER,
++    SNDBUF,
+     SOL_SOCKET
+ )
+ 
+ SOCKET_ADDRESS = os.environ.get('NANOMSG_PY_TEST_ADDRESS', "inproc://a")
+ 
+-LINGER_DEFAULT_VALUE = 1000
+-
+ 
+ class TestGeneralSocketMethods(unittest.TestCase):
+     def setUp(self):
+@@ -42,19 +40,14 @@ class TestGeneralSocketMethods(unittest.TestCase):
+ 
+         self.assertFalse(self.socket.is_open())
+ 
+-    def test_set_int_option(self):
++    def test_set_and_get_int_option(self):
+         expected = 500
+ 
+-        self.socket.set_int_option(SOL_SOCKET, LINGER, expected)
++        self.socket.set_int_option(SOL_SOCKET, SNDBUF, expected)
+ 
+-        actual = self.socket.get_int_option(SOL_SOCKET, LINGER)
++        actual = self.socket.get_int_option(SOL_SOCKET, SNDBUF)
+         self.assertEqual(expected, actual)
+ 
+-    def test_get_int_option(self):
+-        actual = self.socket.get_int_option(SOL_SOCKET, LINGER)
+-
+-        self.assertEqual(LINGER_DEFAULT_VALUE, actual)
+-
+ 
+ if __name__ == '__main__':
+     unittest.main()
+-- 
+2.21.0
+
