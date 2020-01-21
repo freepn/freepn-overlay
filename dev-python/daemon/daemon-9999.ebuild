@@ -8,15 +8,15 @@ PYTHON_COMPAT=( python2_7 python{3_5,3_6,3_7} )
 inherit distutils-r1
 
 DESCRIPTION="Python daemonizer for Unix, Linux and OS X"
-HOMEPAGE="https://github.com/sarnold/python-daemon"
+HOMEPAGE="https://github.com/freepn/python-daemon"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/sarnold/python-daemon.git"
+	EGIT_REPO_URI="https://github.com/freepn/python-daemon.git"
 	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
 else
-	SRC_URI="https://github.com/sarnold/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/freepn/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 

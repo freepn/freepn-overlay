@@ -11,12 +11,12 @@ DESCRIPTION="Python job scheduling for humans"
 HOMEPAGE="https://github.com/dbader/schedule"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/sarnold/schedule"
+	EGIT_REPO_URI="https://github.com/freepn/schedule"
 	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
 else
-	SRC_URI="https://github.com/sarnold/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/freepn/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 

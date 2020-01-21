@@ -12,7 +12,7 @@ HOMEPAGE="https://github.com/serverdensity/python-daemon"
 
 # this is a one-off because upstream has no github release (only pypi)
 # and we need the packaging fixes
-EGIT_REPO_URI="https://github.com/sarnold/python-daemon.git"
+EGIT_REPO_URI="https://github.com/freepn/python-daemon.git"
 EGIT_COMMIT="0.2.1"
 
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"

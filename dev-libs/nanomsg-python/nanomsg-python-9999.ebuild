@@ -11,7 +11,7 @@ DESCRIPTION="nanomsg wrapper for python with multiple backends"
 HOMEPAGE="https://github.com/tonysimpson/nanomsg-python"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/sarnold/nanomsg-python.git"
+	EGIT_REPO_URI="https://github.com/freepn/nanomsg-python.git"
 	EGIT_BRANCH="python-tests"
 	inherit git-r3
 	KEYWORDS=""

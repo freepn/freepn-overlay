@@ -11,7 +11,7 @@ DESCRIPTION="Small Python library for writing lightweight networked services"
 HOMEPAGE="https://github.com/walkr/nanoservice"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/sarnold/nanoservice.git"
+	EGIT_REPO_URI="https://github.com/freepn/nanoservice.git"
 	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""

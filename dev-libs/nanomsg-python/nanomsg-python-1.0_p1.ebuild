@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -14,7 +14,7 @@ DESCRIPTION="nanomsg wrapper for python with multiple backends (CPython and ctyp
 HOMEPAGE="https://github.com/tonysimpson/nanomsg-python"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/sarnold/nanomsg-python.git"
+	EGIT_REPO_URI="https://github.com/freepn/nanomsg-python.git"
 	EGIT_BRANCH="python-tests"
 	inherit git-r3
 	KEYWORDS=""
