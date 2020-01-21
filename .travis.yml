@@ -30,4 +30,4 @@ before_script:
     - cd travis-overlay
 script:
     # - ./../spinner.sh "python ../portage-portage-${PORTAGE_VER}/repoman/bin/repoman full -d"
-    - ./../spinner.sh "python ../portage-portage-${PORTAGE_VER}/repoman/bin/repoman full --ignore-arches --include-dev --include-exp-profiles=y"
+    - ./../spinner.sh "python ../portage-portage-${PORTAGE_VER}/repoman/bin/repoman full --ignore-arches --include-dev"
