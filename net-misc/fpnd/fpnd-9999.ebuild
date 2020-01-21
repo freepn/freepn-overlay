@@ -13,7 +13,7 @@ HOMEPAGE="https://github.com/freepn/fpnd"
 
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/freepn/fpnd.git"
-	EGIT_BRANCH="messaging"
+	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
 else
