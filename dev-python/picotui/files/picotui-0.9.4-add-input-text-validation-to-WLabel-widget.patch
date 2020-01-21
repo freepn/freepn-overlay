@@ -1,0 +1,38 @@
+From c3736151ce739de5616873d6255fb4a2bac78327 Mon Sep 17 00:00:00 2001
+From: Stephen Arnold <nerdboy@gentoo.org>
+Date: Mon, 13 May 2019 13:41:03 -0700
+Subject: [PATCH] widgets.py: add input text validation to WLabel widget class
+
+* this adds colors for valid/invalid text when .validate is True
+
+Signed-off-by: Stephen Arnold <nerdboy@gentoo.org>
+---
+ picotui/widgets.py | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/picotui/widgets.py b/picotui/widgets.py
+index ae4ce43..c59dc73 100644
+--- a/picotui/widgets.py
++++ b/picotui/widgets.py
+@@ -150,10 +150,18 @@ class WLabel(Widget):
+         self.w = w
+         if not w:
+             self.w = len(text)
++        self.validate = False
++        self.valid = False
+ 
+     def redraw(self):
+         self.goto(self.x, self.y)
++        if self.validate:
++            if not self.valid:
++                self.attr_color(C_B_RED, None)
++            else:
++                self.attr_color(C_B_GREEN, None)
+         self.wr_fixedw(self.t, self.w)
++        self.attr_reset()
+ 
+ 
+ class WFrame(Widget):
+-- 
+2.21.0
+

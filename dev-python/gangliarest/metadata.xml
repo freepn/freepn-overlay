@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>nerdboy@gentoo.org</email>
+    <name>Steve Arnold</name>
+  </maintainer>
+  <upstream>
+    <remote-id type="pypi">gangliarest</remote-id>
+    <remote-id type="github">dcarrollno/Ganglia-Modules</remote-id>
+  </upstream>
+  <use>
+    <flag name="redis">
+      Enable redis cache (see GangliaRest.cfg for more info)
+    </flag>
+    <flag name="mvebu64">
+      Switch from eth0 to lan1 as default network interface
+    </flag>
+  </use>
+</pkgmetadata>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer type="person">
+	<email>nerdboy@gentoo.org</email>
+	<name>Steve Arnold</name>
+</maintainer>
+<longdescription lang="en">
+	Ganglia_cli is a small Python library to send metrics to Ganglia from
+	your Python code. Supports UDP, multicast, group and spoofing.
+</longdescription>
+</pkgmetadata>

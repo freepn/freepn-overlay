@@ -1,0 +1,65 @@
+--- src/nsca.c.orig	2018-06-29 13:35:08.380433977 -0700
++++ src/nsca.c	2018-06-29 13:37:53.995628135 -0700
+@@ -471,13 +471,13 @@
+ 		else if(strstr(input_buffer,"debug")){
+                         if(atoi(varvalue)>0)
+                                 debug=TRUE;
+-                        else 
++                        else
+                                 debug=FALSE;
+                         }
+ 		else if(strstr(input_buffer,"aggregate_writes")){
+                         if(atoi(varvalue)>0)
+                                 aggregate_writes=TRUE;
+-                        else 
++                        else
+                                 aggregate_writes=FALSE;
+                         }
+                     else if(strstr(input_buffer,"check_result_path")){
+@@ -486,7 +486,7 @@
+                                     return ERROR;
+                                     }
+                             check_result_path=strdup(varvalue);
+-                            
++
+                             int checkresult_test_fd=-1;
+                             char *checkresult_test=NULL;
+                             asprintf(&checkresult_test,"%s/nsca.test.%i",check_result_path,getpid());
+@@ -1052,7 +1052,7 @@
+ 
+         /* for some reason we didn't send all the bytes we were supposed to */
+ 	else if(bytes_to_send<sizeof(send_packet)){
+-                syslog(LOG_ERR,"Only able to send %d of %d bytes of init packet to client\n",rc,sizeof(send_packet));
++                syslog(LOG_ERR,"Only able to send %d of %ld bytes of init packet to client\n",rc,sizeof(send_packet));
+                 encrypt_cleanup(decryption_method,CI);
+                 close(sock);
+ 		if(mode==MULTI_PROCESS_DAEMON)
+@@ -1259,7 +1259,7 @@
+         time(&current_time);
+         fprintf(checkresult_file_fp,"### NSCA Passive Check Result ###\n");
+         fprintf(checkresult_file_fp,"# Time: %s",ctime(&current_time));
+-        fprintf(checkresult_file_fp,"file_time=%d\n\n",current_time);
++        fprintf(checkresult_file_fp,"file_time=%ld\n\n",current_time);
+         fprintf(checkresult_file_fp,"### %s Check Result ###\n",(svc_description=="")?"Host":"Service");
+         fprintf(checkresult_file_fp,"host_name=%s\n",host_name);
+         if(strcmp(svc_description,""))
+--- src/send_nsca.c.orig	2018-06-29 13:35:19.697455615 -0700
++++ src/send_nsca.c	2018-06-29 13:39:00.747721335 -0700
+@@ -298,7 +298,7 @@
+ 
+ 		/* for some reason we didn't send all the bytes we were supposed to */
+ 		else if(bytes_to_send<sizeof(send_packet)){
+-			printf("Warning: Sent only %d of %d bytes to host\n",rc,sizeof(send_packet));
++			printf("Warning: Sent only %d of %ld bytes to host\n",rc,sizeof(send_packet));
+ 			close(sd);
+ 			return STATE_UNKNOWN;
+ 		        }
+@@ -370,7 +370,7 @@
+ 
+         /* we couldn't read the correct amount of data, so bail out */
+         else if(bytes_to_recv!=sizeof(receive_packet)){
+-                printf("Error: Init packet from server was too short (%d bytes received, %d expected)\n",bytes_to_recv,sizeof(receive_packet));
++                printf("Error: Init packet from server was too short (%d bytes received, %ld expected)\n",bytes_to_recv,sizeof(receive_packet));
+                 return ERROR;
+                 }
+ 

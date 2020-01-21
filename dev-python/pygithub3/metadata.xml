@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer type="person">
+	<email>nerdboy@gentoo.org</email>
+	<name>Steve Arnold</name>
+</maintainer>
+<longdescription lang="en">
+	Pygithub3 is a wrapper to the Github API v3, written in Python, and
+	has been developed with extensibility in mind, because the API is in
+	a beta state, trying to achieve a very loosly coupled set of services.
+	It should be very easy to extend to support new requests and resources
+	because each of them are managed by themselves.
+</longdescription>
+</pkgmetadata>

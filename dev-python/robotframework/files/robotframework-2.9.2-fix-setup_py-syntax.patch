@@ -1,0 +1,42 @@
+From a38e527ac88146d7c6427945a48bdebfbbe62cca Mon Sep 17 00:00:00 2001
+From: Stephen Arnold <nerdboy@gentoo.org>
+Date: Sun, 2 Dec 2018 11:24:21 -0800
+Subject: [PATCH 2/3] setup.py: misc syntax fixes
+
+Signed-off-by: Stephen Arnold <nerdboy@gentoo.org>
+---
+ setup.py | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index f8a9bfccf..7576bd097 100755
+--- a/setup.py
++++ b/setup.py
+@@ -12,8 +12,12 @@ except ImportError:
+ 
+ CURDIR = dirname(abspath(__file__))
+ 
+-execfile(join(CURDIR, 'src', 'robot', 'version.py'))
++with open(join(CURDIR, 'src', 'robot', 'version.py')) as f:
++    code = compile(f.read(), "version.py", 'exec')
++    exec(code)
++
+ VERSION = get_version()
++
+ with open(join(CURDIR, 'README.rst')) as readme:
+     LONG_DESCRIPTION = readme.read()
+     base_url = 'https://github.com/robotframework/robotframework/blob/master'
+@@ -48,8 +52,8 @@ PACKAGES = ['robot', 'robot.api', 'robot.conf', 'robot.htmldata',
+             'robot.running.arguments', 'robot.running.timeouts',
+             'robot.utils', 'robot.variables', 'robot.writer']
+ PACKAGE_DATA = [join('htmldata', directory, pattern)
+-                for directory in 'rebot', 'libdoc', 'testdoc', 'lib', 'common'
+-                for pattern in '*.html', '*.css', '*.js']
++                for directory in ('rebot', 'libdoc', 'testdoc', 'lib', 'common')
++                for pattern in ('*.html', '*.css', '*.js')]
+ if sys.platform.startswith('java'):
+     SCRIPTS = ['jybot', 'jyrebot']
+ elif sys.platform == 'cli':
+-- 
+2.18.0
+

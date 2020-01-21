@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer type="person">
+	<email>nerdboy@gentoo.org</email>
+	<name>Steve Arnold</name>
+</maintainer>
+<longdescription lang="en">
+	The Ganglia API is a small standalone python application that takes
+	XML data from a number of Ganglia gmetad processes and presents a
+	RESTful JSON API of the most recently received data (requires the
+	www-servers/tornado package).
+</longdescription>
+</pkgmetadata>

@@ -1,0 +1,13 @@
+#!/sbin/openrc-run
+# Copyright 1999-2018 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+command="/usr/bin/GangliaRest"
+command_args=""
+pidfile="/run/GangliaRest.pid"
+command_background=true
+
+depend() {
+	need net localmount redis
+	use dns logger
+}
