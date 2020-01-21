@@ -29,8 +29,7 @@ RDEPEND="${PYTHON_DEPS}
 
 DEPEND="${PYTHON_DEPS}
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}]
-		>=dev-python/pytest-cov-2.3.1[${PYTHON_USEDEP}] )
+	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
 "
 
 python_test() {
