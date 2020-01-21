@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -9,7 +9,7 @@ MY_PV="${PV//_}"
 
 inherit distutils-r1
 
-DESCRIPTION=""
+DESCRIPTION="Small Python library for writing lightweight networked services"
 HOMEPAGE="https://github.com/walkr/nanoservice"
 
 if [[ ${PV} = 9999* ]]; then
