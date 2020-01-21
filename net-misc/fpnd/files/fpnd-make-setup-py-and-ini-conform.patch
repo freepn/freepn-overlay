@@ -27,10 +27,10 @@ index c7a229f..bf9df09 100644
  Restart=always
  RestartSec=5
 diff --git a/setup.py b/setup.py
-index 3326f1a..2fbda23 100644
+index 7878bae..d678350 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -27,12 +27,14 @@ setup(
+@@ -27,13 +27,15 @@ setup(
      name='fpnd',
      packages=['node_tools',],
      data_files=[
@@ -39,12 +39,14 @@ index 3326f1a..2fbda23 100644
 -                      'bin/fpn1-down.sh',
 -                      'bin/fpn1-setup.sh',
 -                      'etc/fpnd.ini',
--                      'scripts/fpnd.py']),
+-                      'scripts/fpnd.py',
+-                      'scripts/msg_responder.py']),
 +        ('libexec/fpnd', ['bin/fpn0-down.sh',
 +                          'bin/fpn0-setup.sh',
 +                          'bin/fpn1-down.sh',
 +                          'bin/fpn1-setup.sh',
-+                          'etc/fpnd.ini']),
++                          'etc/fpnd.ini',
++                          'scripts/msg_responder.py']),
 +    ],
 +    scripts=[
 +        'scripts/fpnd.py'

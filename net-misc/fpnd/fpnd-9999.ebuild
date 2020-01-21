@@ -50,7 +50,6 @@ pkg_setup() {
 python_prepare_all() {
 	local PATCHES=(
 		"${FILESDIR}"/${PN}-make-setup-py-and-ini-conform.patch
-		"${FILESDIR}"/fpnd-messaging-test.patch
 	)
 
 	distutils-r1_python_prepare_all
