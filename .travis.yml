@@ -2,24 +2,14 @@
 # Run repoman via travis
 # See https://github.com/mrueg/repoman-travis
 #
-dist: xenial
 language: python
-
 python:
-    - "2.7"
-    - "3.5"
-    - "3.6"
-    - "3.7"
-    - pypy3
-    - pypy2
-
+    - pypy
+env:
+    - PORTAGE_VER="2.3.84"
 before_install:
     - sudo apt-get -qq update
     - pip install lxml pyyaml
-
-env:
-    PORTAGE_VER="2.3.84"
-
 before_script:
     - sudo chmod a+rwX /etc/passwd /etc/group /etc /var /var/cache
     - mkdir -p travis-overlay /etc/portage /var/cache/distfiles /var/db/repos/gentoo
@@ -38,14 +28,6 @@ before_script:
     - SIZE=$(stat -c %s .travis.yml.upstream)
     - if ! cmp -n $SIZE -s .travis.yml .travis.yml.upstream; then echo -e "\e[31m !!! .travis.yml outdated! Update available https://github.com/mrueg/repoman-travis \e[0m" > /tmp/update ; fi
     - cd travis-overlay
-
 script:
     # - ./../spinner.sh "python ../portage-portage-${PORTAGE_VER}/repoman/bin/repoman full -d"
     - ./../spinner.sh "python ../portage-portage-${PORTAGE_VER}/repoman/bin/repoman full --ignore-arches --include-dev  --include-exp-profiles=y"
-
-matrix:
-    fast_finish: true
-  allow_failures:
-    - python: pypy3
-    - python: pypy2
-
