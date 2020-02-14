@@ -26,6 +26,8 @@ SLOT="0"
 IUSE="systemd test"
 
 RDEPEND="${PYTHON_DEPS}
+	sys-apps/iproute2
+	net-firewall/iptables
 	net-misc/zerotier"
 
 DEPEND="${PYTHON_DEPS}
@@ -39,6 +41,12 @@ DEPEND="${PYTHON_DEPS}
 		>=dev-python/pytest-3.0.3[${PYTHON_USEDEP}]
 		>=dev-python/coverage-4.5.2[${PYTHON_USEDEP}] )
 "
+# additional test dependcies not required for USE=test
+#	dev-python/pytest-cov
+#	dev-python/pytest-pep8
+#	dev-python/pytest-flake8
+#	dev-python/tox
+
 
 RESTRICT="mirror"
 
@@ -63,7 +71,8 @@ python_install() {
 python_install_all() {
 	distutils-r1_python_install_all
 
-	rm "${EPREFIX}//usr/libexec/fpnd/fpnd.ini"
+	rm "${ED}/usr/libexec/fpnd/fpnd.ini"
+	echo "rc_cgroup_cleanup=\"yes\"" > "${ED}/etc/conf.d/fpnd"
 	insinto "/etc/${PN}"
 	doins "${S}"/etc/"${PN}".ini
 
@@ -75,8 +84,6 @@ python_install_all() {
 }
 
 python_test() {
-	# Run all but integration tests (requires tox magic)
-	#PYTHONPATH="." py.test -v --ignore-glob="tests/integration/*.py"
 	distutils_install_for_testing
 	PYTHONPATH="${TEST_DIR}/lib:${PYTHONPATH}" py.test test -v \
 		|| die "tests failed"
