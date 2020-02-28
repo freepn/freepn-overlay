@@ -15,7 +15,6 @@ KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="doc graph nls test"
 
 RDEPEND="virtual/libiconv
-	dev-util/intltool
 	sys-devel/gettext"
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig

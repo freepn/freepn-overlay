@@ -23,7 +23,7 @@ fi
 
 LICENSE="AGPL-3"
 SLOT="0"
-IUSE="systemd test"
+IUSE="+adhoc systemd test"
 
 RDEPEND="${PYTHON_DEPS}
 	sys-apps/iproute2
@@ -72,6 +72,7 @@ python_install_all() {
 	distutils-r1_python_install_all
 
 	rm "${ED}/usr/libexec/fpnd/fpnd.ini"
+	use adhoc || sed -i -e "s|adhoc|peer|" "${S}"/etc/"${PN}".ini
 
 	insinto "/etc/${PN}"
 	doins "${S}"/etc/"${PN}".ini

@@ -11,4 +11,7 @@
 <upstream>
 	<remote-id type="github">sarnold/fpnd</remote-id>
 </upstream>
+<use>
+	<flag name="adhoc">Set adhoc mode as default instead of peer mode</flag>
+</use>
 </pkgmetadata>
