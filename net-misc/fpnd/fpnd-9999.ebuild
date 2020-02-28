@@ -33,6 +33,7 @@ RDEPEND="${PYTHON_DEPS}
 DEPEND="${PYTHON_DEPS}
 	dev-python/daemon[${PYTHON_USEDEP}]
 	dev-python/schedule[${PYTHON_USEDEP}]
+	dev-python/datrie[${PYTHON_USEDEP}]
 	dev-python/diskcache[${PYTHON_USEDEP}]
 	dev-libs/ztcli-async[${PYTHON_USEDEP}]
 	dev-libs/nanoservice[${PYTHON_USEDEP}]
@@ -46,7 +47,6 @@ DEPEND="${PYTHON_DEPS}
 #	dev-python/pytest-pep8
 #	dev-python/pytest-flake8
 #	dev-python/tox
-
 
 RESTRICT="mirror"
 
@@ -72,12 +72,17 @@ python_install_all() {
 	distutils-r1_python_install_all
 
 	rm "${ED}/usr/libexec/fpnd/fpnd.ini"
-	echo "rc_cgroup_cleanup=\"yes\"" > "${ED}/etc/conf.d/fpnd"
+
 	insinto "/etc/${PN}"
 	doins "${S}"/etc/"${PN}".ini
 
 	newinitd "${S}"/etc/"${PN}".openrc "${PN}"
 	use systemd && systemd_dounit "${S}"/etc/"${PN}".service
+
+	cat >> "${T}"/"${PN}".conf <<- EOF
+	rc_cgroup_cleanup="yes"
+	EOF
+	newconfd "${T}"/"${PN}".conf "${PN}"
 
 	insinto "/etc/logrotate.d"
 	newins "${S}"/etc/"${PN}".logrotate "${PN}"

@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Foundation
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -23,7 +23,7 @@ fi
 
 DESCRIPTION="Fast, efficiently stored Trie for Python. Uses libdatrie."
 HOMEPAGE="https://github.com/pytries/datrie"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+
 LICENSE="LGPL-2.1"
 SLOT="0"
 IUSE="test"
@@ -31,10 +31,15 @@ IUSE="test"
 RDEPEND="${PYTHON_DEPS}"
 
 DEPEND="${PYTHON_DEPS}
+	dev-libs/libdatrie
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	test? ( dev-python/pytest[${PYTHON_USEDEP}]
 		<=dev-python/hypothesis-4.57.1[${PYTHON_USEDEP}] )
 "
+
+PATCHES=(
+	"${FILESDIR}/${PN}-use-system-libdatrie.patch"
+)
 
 python_test() {
 	py.test -v || die "Testing failed with ${EPYTHON}"

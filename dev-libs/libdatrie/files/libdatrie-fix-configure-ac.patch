@@ -1,0 +1,13 @@
+--- a/configure.ac	2020-02-27 16:05:27.000000000 -0800
++++ b/configure.ac	2020-02-27 16:06:24.000000000 -0800
+@@ -2,9 +2,7 @@
+ # Process this file with autoconf to produce a configure script.
+ 
+ AC_PREREQ(2.59)
+-AC_INIT(libdatrie,
+-        m4_esyscmd([build-aux/git-version-gen]),
+-        theppitak@gmail.com)
++AC_INIT(libdatrie, 0.2.12)
+ AC_CONFIG_SRCDIR([datrie/trie.h])
+ AC_CONFIG_HEADER([config.h])
+ AC_CONFIG_AUX_DIR(build-aux)
