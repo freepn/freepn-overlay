@@ -32,7 +32,6 @@ ECONF_SOURCE=${S}
 src_prepare() {
 	default
 
-	#eautoheader
 	elibtoolize
 	AT_M4DIR="m4" eautoreconf
 }
