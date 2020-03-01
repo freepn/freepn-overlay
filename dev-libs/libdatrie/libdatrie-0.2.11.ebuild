@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-inherit autotools eutils libtool multilib multilib-minimal
+inherit autotools eutils multilib multilib-minimal
 
 DESCRIPTION="An implementation for a double-array Trie library in C."
 HOMEPAGE="https://linux.thai.net/~thep/datrie/datrie.html"
@@ -32,7 +32,7 @@ ECONF_SOURCE=${S}
 src_prepare() {
 	default
 
-	elibtoolize
+	# elibtoolize
 	AT_M4DIR="m4" eautoreconf
 }
 
