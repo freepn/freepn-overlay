@@ -15,14 +15,18 @@ if [[ ${PV} = 9999* ]]; then
 	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
+	S="${WORKDIR}/${P}"
 else
 	SRC_URI="https://github.com/freepn/python-${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+	S="${WORKDIR}/python-${P}"
 fi
 
 LICENSE="MIT"
 SLOT="0"
 IUSE="test"
+
+S="${WORKDIR}/${P}"
 
 RDEPEND="${PYTHON_DEPS}"
 
