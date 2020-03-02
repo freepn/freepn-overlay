@@ -7,7 +7,7 @@ PYTHON_COMPAT=( python{2_7,3_6,3_7} )
 
 inherit distutils-r1
 
-DESCRIPTION=""
+DESCRIPTION="Refactoring tool for migrating from unittest to pytest."
 HOMEPAGE="https://github.com/pytest-dev/unittest2pytest"
 
 if [[ ${PV} = 9999* ]]; then
