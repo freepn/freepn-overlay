@@ -33,6 +33,9 @@ DEPEND="${PYTHON_DEPS}
 	test? ( dev-python/pytest[${PYTHON_USEDEP}] )
 "
 
+PATCHES=( "${FILESDIR}/${P}-test-fixes.patch" )
+
 python_test() {
-	py.test -v test_daemon.py || die "Testing failed with ${EPYTHON}"
+	"${EPYTHON}" -m pytest -v test_daemon.py \
+		|| die "Testing failed with ${EPYTHON}"
 }

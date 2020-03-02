@@ -1,0 +1,83 @@
+diff --git a/.coveragerc b/.coveragerc
+new file mode 100644
+index 0000000..af9b342
+--- /dev/null
++++ b/.coveragerc
+@@ -0,0 +1,4 @@
++# .coveragerc to control coverage.py
++[run]
++#branch = True
++omit = test_daemon.py test/*
+diff --git a/.travis.yml b/.travis.yml
+index cff97c1..898fdee 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -2,7 +2,6 @@ dist: xenial
+ language: python
+ 
+ python:
+-    - "2.7"
+     - "3.5"
+     - "3.6"
+     - "3.7"
+diff --git a/setup.cfg b/setup.cfg
+new file mode 100644
+index 0000000..429934a
+--- /dev/null
++++ b/setup.cfg
+@@ -0,0 +1,17 @@
++[nosetests]
++verbosity=0
++detailed-errors=1
++with-coverage=1
++cover-package=daemon
++debug=nose.loader
++pdb=1
++pdb-failures=1
++
++[flake8]
++max-line-length = 96
++
++#markers =
++#    pep8: workaround for https://bitbucket.org/pytest-dev/pytest-pep8/issues/23/
++
++[pep8]
++max-line-length = 96
+diff --git a/setup.py b/setup.py
+index 465225a..40810e4 100644
+--- a/setup.py
++++ b/setup.py
+@@ -16,6 +16,7 @@ setup(
+     url="https://github.com/sarnold/python-daemon",
+     description="Python daemonizer for Unix, Linux and OS X",
+     platforms=["any"],
++    test_suite='daemon',
+     classifiers=[
+         "License :: OSI Approved :: Attribution Assurance License",
+         'Intended Audience :: Developers',
+diff --git a/test_daemon.py b/test_daemon.py
+index 8c763af..bc0f19c 100644
+--- a/test_daemon.py
++++ b/test_daemon.py
+@@ -27,7 +27,7 @@ class TDaemon(Daemon):
+         testoutput.close()
+ 
+     def run(self):
+-        time.sleep(0.3)
++        time.sleep(0.4)
+         testoutput = open('testing_daemon', 'w')
+         testoutput.write('finished')
+         testoutput.close()
+@@ -53,10 +53,10 @@ class TestDaemon(unittest.TestCase):
+         control_daemon('stop')
+         time.sleep(0.1)
+         assert os.path.exists(s.PIDFILE) is False
+-        assert self.testoutput.read() == 'inited'
++        assert self.testoutput.read() == 'cleanup'
+ 
+     def test_daemon_can_finish(self):
+-        time.sleep(0.4)
++        time.sleep(0.6)
+         assert os.path.exists(s.PIDFILE) is False
+         assert self.testoutput.read() == 'finished'
+ 
