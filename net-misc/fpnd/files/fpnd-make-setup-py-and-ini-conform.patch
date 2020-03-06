@@ -26,10 +26,10 @@ index c7a229f..bf9df09 100644
  Type=simple
  Restart=on-failure
 diff --git a/setup.py b/setup.py
-index 8e444f1..8b2bed7 100644
+index 55de5e7..4ba150f 100644
 --- a/setup.py
 +++ b/setup.py
-@@ -27,14 +27,16 @@ setup(
+@@ -30,17 +30,19 @@ setup(
      name='fpnd',
      packages=['node_tools',],
      data_files=[
@@ -37,6 +37,9 @@ index 8e444f1..8b2bed7 100644
 -                      'bin/fpn0-setup.sh',
 -                      'bin/fpn1-down.sh',
 -                      'bin/fpn1-setup.sh',
+-                      'bin/show-geoip.sh',
+-                      'bin/ping_google.sh',
+-                      'bin/ping_gateway.sh',
 -                      'etc/fpnd.ini',
 -                      'scripts/fpnd.py',
 -                      'scripts/msg_responder.py',
@@ -45,6 +48,9 @@ index 8e444f1..8b2bed7 100644
 +                          'bin/fpn0-setup.sh',
 +                          'bin/fpn1-down.sh',
 +                          'bin/fpn1-setup.sh',
++                          'bin/show-geoip.sh',
++                          'bin/ping_google.sh',
++                          'bin/ping_gateway.sh',
 +                          'etc/fpnd.ini',
 +                          'scripts/msg_responder.py',
 +                          'scripts/msg_subscriber.py']),

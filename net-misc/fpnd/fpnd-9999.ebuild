@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python{3_5,3_6,3_7} )
+PYTHON_COMPAT=( python{3_6,3_7} )
 PYTHON_REQ_USE="sqlite"
 
 inherit distutils-r1 systemd user
@@ -23,7 +23,7 @@ fi
 
 LICENSE="AGPL-3"
 SLOT="0"
-IUSE="+adhoc systemd test"
+IUSE="+adhoc systemd test test-infra -ztnc"
 
 RDEPEND="${PYTHON_DEPS}
 	sys-apps/iproute2
@@ -32,8 +32,8 @@ RDEPEND="${PYTHON_DEPS}
 
 DEPEND="${PYTHON_DEPS}
 	dev-python/daemon[${PYTHON_USEDEP}]
+	ztnc? ( dev-python/datrie[${PYTHON_USEDEP}] )
 	dev-python/schedule[${PYTHON_USEDEP}]
-	dev-python/datrie[${PYTHON_USEDEP}]
 	dev-python/diskcache[${PYTHON_USEDEP}]
 	dev-libs/ztcli-async[${PYTHON_USEDEP}]
 	dev-libs/nanoservice[${PYTHON_USEDEP}]
@@ -58,7 +58,9 @@ pkg_setup() {
 python_prepare_all() {
 	local PATCHES=(
 		"${FILESDIR}"/${PN}-make-setup-py-and-ini-conform.patch
+#		"${FILESDIR}"/${PN}-adhoc-mode-test.patch
 	)
+	use test-infra && PATCHES+=( "${FILESDIR}"/fpnd-local-infra-nodes.patch )
 
 	distutils-r1_python_prepare_all
 }
