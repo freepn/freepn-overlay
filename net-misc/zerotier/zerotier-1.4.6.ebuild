@@ -3,7 +3,7 @@
 
 EAPI=6
 
-LLVM_MAX_SLOT=9
+LLVM_MAX_SLOT=10
 
 inherit flag-o-matic llvm systemd toolchain-funcs
 

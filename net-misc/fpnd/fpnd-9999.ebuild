@@ -6,7 +6,7 @@ EAPI=6
 PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 PYTHON_REQ_USE="sqlite"
 
-inherit distutils-r1 systemd user
+inherit distutils-r1 linux-info systemd user
 
 DESCRIPTION="Python package for fpnd node scripts"
 HOMEPAGE="https://github.com/freepn/fpnd"
@@ -53,6 +53,23 @@ RESTRICT="mirror"
 pkg_setup() {
 	enewgroup ${PN}
 	enewuser ${PN} -1 -1 /usr/libexec/${PN} ${PN}
+
+	linux-info_pkg_setup
+	CONFIG_CHECK_MODULES="TUN IP_NF_NAT NET_SCHED BPFILTER \
+	NET_SCH_INGRESS IP_MULTIPLE_TABLES NETFILTER_XT_TARGET_MARK \
+	IP_ADVANCED_ROUTER NF_CT_NETLINK NETFILTER_NETLINK_QUEUE NF_NAT \
+	NETFILTER_NETLINK_LOG NETFILTER_XT_NAT IP_NF_MANGLE NF_DEFRAG_IPV4 \
+	IP_NF_TARGET_MASQUERADE IP_NF_FILTER IP_NF_IPTABLES NF_CONNTRACK \
+	NETFILTER_XT_MARK NETFILTER_XTABLES"
+
+	if linux_config_exists; then
+		for module in ${CONFIG_CHECK_MODULES}; do
+			linux_chkconfig_present ${module} || ewarn "${module} needs to be enabled in kernel"
+		done
+	else
+		ewarn "No kernel config found; you will need to ensure your running"
+		ewarn "kernel has nat/netfilter modules and xt_mark enabled!"
+	fi
 }
 
 python_prepare_all() {
