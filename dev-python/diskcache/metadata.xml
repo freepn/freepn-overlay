@@ -9,9 +9,4 @@
     <remote-id type="pypi">diskcache</remote-id>
     <remote-id type="github">grantjenks/python-diskcache</remote-id>
   </upstream>
-  <use>
-    <flag name="django">
-      Enable django cache plus dependencies
-    </flag>
-  </use>
 </pkgmetadata>

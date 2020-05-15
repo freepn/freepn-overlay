@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python2_7 python{3_5,3_6,3_7} )
+PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
 
 # note the p1 is to denote the big patch on top of upstream 1.0 release
 MY_PV="${PV/_p1/}"

@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python{3_5,3_6,3_7} )
+PYTHON_COMPAT=( python3_{6,7,8} )
 
 MY_PV="${PV//_}"
 
@@ -27,13 +27,16 @@ LICENSE="MIT"
 SLOT="0"
 IUSE="test"
 
-RDEPEND="${PYTHON_DEPS}"
-
-DEPEND="${PYTHON_DEPS}
+RDEPEND="
 	dev-libs/nanomsg-python[${PYTHON_USEDEP}]
-	dev-python/setuptools[${PYTHON_USEDEP}]
 	dev-python/msgpack[${PYTHON_USEDEP}]
-	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}]
+"
+
+DEPEND="
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	test? (
+		${RDEPEND}
+		>=dev-python/pytest-3.0.3[${PYTHON_USEDEP}]
 		!dev-python/pytest-cases
 	)
 "
