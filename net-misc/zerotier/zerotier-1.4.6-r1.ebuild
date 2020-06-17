@@ -5,7 +5,7 @@ EAPI=6
 
 LLVM_MAX_SLOT=10
 
-inherit flag-o-matic llvm systemd toolchain-funcs
+inherit flag-o-matic llvm systemd toolchain-funcs user
 
 HOMEPAGE="https://www.zerotier.com/"
 DESCRIPTION="A software-based managed Ethernet switch for planet Earth"
@@ -62,6 +62,9 @@ pkg_pretend() {
 }
 
 pkg_setup() {
+	enewgroup zerotier-one
+	enewuser zerotier-one -1 -1 /var/lib/zerotier-one zerotier-one
+
 	llvm_pkg_setup
 }
 
