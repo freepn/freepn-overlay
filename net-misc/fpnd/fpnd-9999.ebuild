@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=6
 
 PYTHON_COMPAT=( python{3_6,3_7,3_8} )
 PYTHON_REQ_USE="sqlite"
@@ -13,7 +13,7 @@ HOMEPAGE="https://github.com/freepn/fpnd"
 
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/freepn/fpnd.git"
-	EGIT_BRANCH="master"
+	EGIT_BRANCH="systemd"
 	inherit git-r3
 	KEYWORDS=""
 else
@@ -23,7 +23,7 @@ fi
 
 LICENSE="AGPL-3"
 SLOT="0"
-IUSE="+adhoc systemd test"
+IUSE="adhoc -systemd test"
 
 RDEPEND="${PYTHON_DEPS}
 	sys-apps/iproute2
@@ -31,6 +31,7 @@ RDEPEND="${PYTHON_DEPS}
 	net-misc/zerotier"
 
 DEPEND="${PYTHON_DEPS}
+	dev-python/appdirs[${PYTHON_USEDEP}]
 	dev-python/daemon[${PYTHON_USEDEP}]
 	dev-python/datrie[${PYTHON_USEDEP}]
 	dev-python/schedule[${PYTHON_USEDEP}]
@@ -55,12 +56,12 @@ pkg_setup() {
 	enewuser ${PN} -1 -1 /usr/libexec/${PN} ${PN}
 
 	linux-info_pkg_setup
-	CONFIG_CHECK_MODULES="TUN IP_NF_NAT NET_SCHED BPFILTER \
+	CONFIG_CHECK_MODULES="TUN IP_NF_NAT NET_SCHED BPFILTER IFB \
 	NET_SCH_INGRESS IP_MULTIPLE_TABLES NETFILTER_XT_TARGET_MARK \
 	IP_ADVANCED_ROUTER NF_CT_NETLINK NETFILTER_NETLINK_QUEUE NF_NAT \
 	NETFILTER_NETLINK_LOG NETFILTER_XT_NAT IP_NF_MANGLE NF_DEFRAG_IPV4 \
 	IP_NF_TARGET_MASQUERADE IP_NF_FILTER IP_NF_IPTABLES NF_CONNTRACK \
-	NETFILTER_XT_MARK NETFILTER_XTABLES"
+	NETFILTER_XT_MARK NETFILTER_XTABLES NET_SCH_CODEL NET_SCH_FQ_CODEL"
 
 	if linux_config_exists; then
 		for module in ${CONFIG_CHECK_MODULES}; do
@@ -80,9 +81,19 @@ python_prepare_all() {
 	distutils-r1_python_prepare_all
 }
 
+src_configure() {
+	sed -i -e "s|usr/lib|usr/libexec|" "${S}"/etc/"${PN}".ini
+	if ! use systemd; then
+		elog "adjusting ini paths for openrc ..."
+		sed -i -e "s|var/log/fpnd|var/log|" \
+			-e "s|run/fpnd|run|" \
+			"${S}"/etc/"${PN}".ini
+	fi
+}
+
 python_install() {
 	# this is deemed "safe" for a single script
-	distutils-r1_python_install --install-scripts="${EPREFIX}/usr/sbin"
+	distutils-r1_python_install --install-scripts="${EPREFIX}/usr/bin"
 }
 
 python_install_all() {
