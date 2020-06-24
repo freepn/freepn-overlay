@@ -23,7 +23,12 @@ fi
 
 LICENSE="AGPL-3"
 SLOT="0"
-IUSE="adhoc -systemd test"
+IUSE="adhoc polkit sudo systemd test"
+
+REQUIRED_USE="
+	?? ( polkit sudo )
+	polkit? ( systemd )
+"
 
 RDEPEND="${PYTHON_DEPS}
 	sys-apps/iproute2
@@ -88,6 +93,10 @@ src_configure() {
 		sed -i -e "s|var/log/fpnd|var/log|" \
 			-e "s|run/fpnd|run|" \
 			"${S}"/etc/"${PN}".ini
+	else
+		elog "adjusting service paths for systemd ..."
+		sed -i -e "s|lib/fpnd|bin|" \
+			"${S}"/etc/"${PN}".service
 	fi
 }
 
@@ -115,6 +124,15 @@ python_install_all() {
 
 	insinto "/etc/logrotate.d"
 	newins "${S}"/etc/"${PN}".logrotate "${PN}"
+
+	if use sudo; then
+		insinto /etc/sudoers.d/
+		insopts -m 0440 -o root -g root
+		newins "${S}/cfg/fpnd.sudoers" fpnd
+	elif use polkit; then
+		insinto /etc/polkit-1/rules.d/
+		doins "${S}"/cfg/55-fpnd-systemd.rules
+	fi
 }
 
 python_test() {

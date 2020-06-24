@@ -6,12 +6,14 @@
 	<name>Steve Arnold</name>
 </maintainer>
 <longdescription lang="en">
-	Python package for fpnd node scripts
+	Python package for freepn daemon tools
 </longdescription>
 <upstream>
-	<remote-id type="github">sarnold/fpnd</remote-id>
+	<remote-id type="github">freepn/fpnd</remote-id>
 </upstream>
 <use>
 	<flag name="adhoc">Set adhoc mode as default instead of peer mode</flag>
+	<flag name="polkit">Install polkit rules for systemd unit</flag>
+	<flag name="sudo">Install sudoers drop-in for start|stop cmds</flag>
 </use>
 </pkgmetadata>
