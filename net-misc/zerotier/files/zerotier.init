@@ -4,10 +4,6 @@ ZEROTIERONE_PIDFILE="/var/run/${SVCNAME}.pid"
 PN="zerotier-one"
 PN_PATH="/usr/sbin/${PN}"
 
-depend() {
-    need net
-}
-
 start() {
     ebegin "Starting ${PN}"
     start-stop-daemon --start \
