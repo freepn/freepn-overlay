@@ -21,7 +21,7 @@ fi
 
 LICENSE="AGPL-3"
 SLOT="0"
-IUSE="gnome"
+IUSE=""
 
 # no tests, so...
 RESTRICT="test"
@@ -33,8 +33,11 @@ COMMON_DEPEND="${PYTHON_DEPS}
 "
 RDEPEND="${COMMON_DEPEND}
 "
+# this makes repoman choke, but if you actually have a gnome desktop
+# you may need to install this:
+#   gnome-extra/gnome-shell-extension-appindicator
+
 DEPEND="${PYTHON_DEPS}
-	gnome? ( gnome-extra/gnome-shell-extension-appindicator )
 	dev-python/xmltodict[${PYTHON_USEDEP}]
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
 	net-misc/fpnd[${PYTHON_USEDEP}]
