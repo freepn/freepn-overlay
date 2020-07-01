@@ -3,6 +3,7 @@
 
 EAPI=6
 
+DISTUTILS_USE_SETUPTOOLS=no
 PYTHON_COMPAT=( python3_{6,7,8} )
 inherit distutils-r1 xdg
 
@@ -34,7 +35,7 @@ COMMON_DEPEND="${PYTHON_DEPS}
 RDEPEND="${COMMON_DEPEND}
 "
 # this makes repoman choke, but if you actually have a gnome desktop
-# you may need to install this:
+# you may want to install this:
 #   gnome-extra/gnome-shell-extension-appindicator
 
 DEPEND="${PYTHON_DEPS}

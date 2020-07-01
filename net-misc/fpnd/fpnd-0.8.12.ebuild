@@ -107,11 +107,7 @@ python_install_all() {
 	newinitd "${S}"/etc/"${PN}".openrc "${PN}"
 	use systemd && systemd_dounit "${S}"/etc/"${PN}".service
 
-	cat >> "${T}"/"${PN}".conf <<- EOF
-	rc_cgroup_cleanup="yes"
-	EOF
-	newconfd "${T}"/"${PN}".conf "${PN}"
-
+	newconfd "${FILESDIR}"/"${PN}".conf "${PN}"
 	insinto "/etc/logrotate.d"
 	newins "${S}"/etc/"${PN}".logrotate "${PN}"
 
