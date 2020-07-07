@@ -2,7 +2,6 @@
 Description=ZeroTier One
 After=network.target
 Wants=network-online.target
-PartOf=fpnd.service
 
 [Service]
 ExecStart=/usr/sbin/zerotier-one/zerotier-one
