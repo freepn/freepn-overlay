@@ -27,7 +27,7 @@ SLOT="0"
 IUSE="-adhoc polkit sched systemd sudo test"
 
 RDEPEND="${PYTHON_DEPS}
-	sched? ( sys-process/at )
+	!arm64? ( sched? ( sys-process/at ) )
 	sys-apps/iproute2
 	net-firewall/iptables
 	net-misc/zerotier

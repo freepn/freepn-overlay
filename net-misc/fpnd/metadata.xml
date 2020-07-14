@@ -13,7 +13,8 @@
 </upstream>
 <use>
 	<flag name="adhoc">Set adhoc mode as default instead of peer mode</flag>
-	<flag name="polkit">Install polkit rules for systemd unit</flag>
-	<flag name="sudo">Install sudoers drop-in for start|stop cmds</flag>
+	<flag name="polkit">Install polkit rules for service cmds</flag>
+	<flag name="sched">Use at cmd to schedule shutdown of needed service</flag>
+	<flag name="sudo">Install sudoers rules for service cmds</flag>
 </use>
 </pkgmetadata>
