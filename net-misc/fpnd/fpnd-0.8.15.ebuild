@@ -1,14 +1,14 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 PYTHON_COMPAT=( python3_{6,7,8} )
 PYTHON_REQ_USE="sqlite"
 
 inherit distutils-r1 linux-info systemd
 
-DESCRIPTION="Python package for fpnd network daemon"
+DESCRIPTION="Python package for the freepn network daemon"
 HOMEPAGE="https://github.com/freepn/fpnd"
 
 if [[ ${PV} = 9999* ]]; then
@@ -35,7 +35,7 @@ RDEPEND="${PYTHON_DEPS}
 	acct-user/fpnd
 "
 
-DEPEND="${PYTHON_DEPS}
+BDEPEND="${PYTHON_DEPS}
 	dev-python/appdirs[${PYTHON_USEDEP}]
 	dev-python/daemon[${PYTHON_USEDEP}]
 	dev-python/datrie[${PYTHON_USEDEP}]

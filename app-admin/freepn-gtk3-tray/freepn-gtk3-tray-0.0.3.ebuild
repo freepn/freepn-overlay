@@ -1,7 +1,7 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 DISTUTILS_USE_SETUPTOOLS=no
 PYTHON_COMPAT=( python3_{6,7,8} )
@@ -28,18 +28,19 @@ IUSE=""
 RESTRICT="test"
 
 COMMON_DEPEND="${PYTHON_DEPS}
+	>=dev-libs/libdbusmenu-0.6.2[gtk3]
 	dev-libs/libappindicator[introspection]
 	x11-libs/gtk+:3[introspection]
 	x11-libs/libnotify[introspection]
 "
 RDEPEND="${COMMON_DEPEND}
 "
-# this makes repoman choke, but if you actually have a gnome desktop
-# you may want to install this:
+# using gnome use flag with this makes repoman choke, but if you actually have
+# a gnome desktop you may want to install this:
 #   gnome-extra/gnome-shell-extension-appindicator
 
-DEPEND="${PYTHON_DEPS}
+BDEPEND="${PYTHON_DEPS}
 	dev-python/xmltodict[${PYTHON_USEDEP}]
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
-	net-misc/fpnd[${PYTHON_USEDEP}]
+	net-misc/fpnd[polkit,${PYTHON_USEDEP}]
 "
