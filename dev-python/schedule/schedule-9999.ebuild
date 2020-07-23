@@ -34,4 +34,3 @@ BDEPEND="${PYTHON_DEPS}
 
 distutils_enable_sphinx docs
 distutils_enable_tests pytest
-
