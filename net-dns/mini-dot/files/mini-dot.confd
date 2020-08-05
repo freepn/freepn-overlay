@@ -1,0 +1,15 @@
+# /etc/conf.d/mini-dot: config file for /etc/init.d/mini-dot
+
+USE_TLS="--tls"
+
+# upstream DoT provider; feel free to lookup more:
+#  
+#  
+
+# US east pi-dns
+#DNS_PROVIDER="185.213.26.187"
+
+# US west pi-dns
+DNS_PROVIDER="45.67.219.208"
+
+START_OPTS="${USE_TLS} 127.0.0.1 ${DNS_PROVIDER}"

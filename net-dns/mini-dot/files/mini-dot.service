@@ -1,0 +1,11 @@
+[Unit]
+Description=TCP DNS Forwarder
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/share/tcp-forwarder/forwarder.py 127.0.0.1 10.0.0.220
+Restart=on-failure
+
+[Install]
+WantedBy=network.target
