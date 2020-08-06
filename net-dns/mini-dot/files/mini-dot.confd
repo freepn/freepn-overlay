@@ -3,13 +3,12 @@
 USE_TLS="--tls"
 
 # upstream DoT provider; feel free to lookup more:
+# https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md
 #  
-#  
+# https://pi-dns.com/
+# USA east 185.213.26.187
+# USA west 45.67.219.208
 
-# US east pi-dns
-#DNS_PROVIDER="185.213.26.187"
-
-# US west pi-dns
 DNS_PROVIDER="45.67.219.208"
 
 START_OPTS="${USE_TLS} 127.0.0.1 ${DNS_PROVIDER}"
