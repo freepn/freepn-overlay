@@ -31,6 +31,7 @@ RDEPEND="${PYTHON_DEPS}
 	sys-apps/iproute2
 	net-firewall/iptables
 	net-misc/zerotier
+	net-misc/stunnel
 	acct-group/fpnd
 	acct-user/fpnd
 "
@@ -99,6 +100,10 @@ python_install() {
 python_install_all() {
 	distutils-r1_python_install_all
 
+	dodir /etc/env.d
+	echo 'CONFIG_PROTECT_MASK="/etc/fpnd /etc/init.d/fpnd /etc/init.d/stunnel /etc/init.d/stunnel.fpnd /etc/stunnel/fpnd.conf"' \
+		> "${ED}/etc/env.d/55fpnd"
+
 	rm "${ED}/usr/libexec/fpnd/fpnd.ini"
 	use adhoc || sed -i -e "s|adhoc|peer|" "${S}"/etc/"${PN}".ini
 
@@ -121,6 +126,10 @@ python_install_all() {
 		doins "${S}"/cfg/55-fpnd-systemd.rules
 		doins "${S}"/cfg/55-fpnd-openrc.rules
 	fi
+
+	dosym stunnel /etc/init.d/stunnel."${PN}"
+	insinto /etc/stunnel
+	newins "${S}"/etc/stunnel-gentoo.conf "${PN}".conf
 }
 
 python_test() {
