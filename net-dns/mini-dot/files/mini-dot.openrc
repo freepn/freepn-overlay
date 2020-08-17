@@ -9,5 +9,6 @@ command_background=true
 #command_user="fpnd:fpnd"
 
 depend() {
-	need net
+	provide dns
+	need localmount net
 }
