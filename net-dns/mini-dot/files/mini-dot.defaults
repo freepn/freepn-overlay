@@ -1,0 +1,10 @@
+# /etc/default/mini-dot: config file for systemd service
+
+# upstream DoT provider; feel free to lookup more:
+# https://github.com/DNSCrypt/dnscrypt-resolvers/blob/master/v3/public-resolvers.md
+#  
+# https://pi-dns.com/
+# USA east 185.213.26.187
+# USA west 45.67.219.208
+
+DOT_PROVIDER=185.213.26.187
