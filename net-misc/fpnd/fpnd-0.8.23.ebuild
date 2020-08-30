@@ -24,9 +24,10 @@ fi
 
 LICENSE="AGPL-3"
 SLOT="0"
-IUSE="-adhoc polkit systemd sudo test"
+IUSE="-adhoc polkit sched sudo systemd test"
 
 RDEPEND="${PYTHON_DEPS}
+	sched? ( sys-process/at )
 	sys-apps/iproute2
 	net-firewall/iptables
 	net-misc/zerotier
@@ -53,8 +54,6 @@ BDEPEND="${PYTHON_DEPS}
 #	dev-python/pytest-pep8
 #	dev-python/pytest-flake8
 #	dev-python/tox
-
-DOCS=( README.rst README_adhoc-mode.rst )
 
 pkg_setup() {
 	linux-info_pkg_setup
@@ -99,8 +98,10 @@ python_install() {
 python_install_all() {
 	distutils-r1_python_install_all
 
+	dodoc changelog.rst CONTRIBUTING.rst
+
 	dodir /etc/env.d
-	echo 'CONFIG_PROTECT_MASK="/etc/fpnd /etc/init.d/fpnd /etc/init.d/stunnel /etc/init.d/stunnel.fpnd /etc/stunnel/fpnd.conf"' \
+	echo 'CONFIG_PROTECT_MASK="/etc/fpnd /etc/init.d/fpnd /etc/stunnel/fpnd.conf"' \
 		> "${ED}/etc/env.d/55fpnd"
 
 	rm "${ED}/usr/libexec/fpnd/fpnd.ini"
