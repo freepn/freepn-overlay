@@ -106,7 +106,7 @@ python_install_all() {
 	distutils-r1_python_install_all
 
 	dodir /etc/env.d
-	echo 'CONFIG_PROTECT_MASK="/etc/fpnd /etc/init.d/fpnd /etc/stunnel/fpnd.conf"' \
+	echo 'CONFIG_PROTECT_MASK="/etc/stunnel/fpnd.conf"' \
 		> "${ED}/etc/env.d/55fpnd"
 
 	rm "${ED}/usr/libexec/fpnd/fpnd.ini"
