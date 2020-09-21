@@ -1,0 +1,18 @@
+[Unit]
+Description=TLS tunnel for network daemons
+After=syslog.target network.target
+
+[Service]
+User=stunnel4
+Group=stunnel4
+
+RuntimeDirectory=stunnel4
+LogsDirectory=stunnel4
+StateDirectory=stunnel4
+
+ExecStart=/usr/bin/stunnel
+Type=forking
+Restart=on-failure
+
+[Install]
+WantedBy=network.target

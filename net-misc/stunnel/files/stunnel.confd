@@ -1,0 +1,7 @@
+# /etc/conf.d/stunnel: config file for /etc/init.d/stunnel
+
+# set this to the method/interface stunnel should care about
+#rc_need="dhcpcd"
+#rc_need="net.eth0"
+#rc_need="NetworkManager"
+
