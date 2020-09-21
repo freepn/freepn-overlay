@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CMAKE_IN_SOURCE_BUILD="true"
 CMAKE_VERBOSE=ON
@@ -9,7 +9,7 @@ CMAKE_VERBOSE=ON
 PYTHON_COMPAT=( python2_7 python3_{5,6} )
 PYTHON_REQ_USE='threads(+)'
 
-inherit cmake-utils eutils flag-o-matic python-r1 toolchain-funcs
+inherit cmake eutils flag-o-matic python-r1 toolchain-funcs
 
 DESCRIPTION="Library for low speed IO in C with bindings for C++, Python, Node.js & Java"
 HOMEPAGE="https://github.com/intel-iot-devkit/mraa"

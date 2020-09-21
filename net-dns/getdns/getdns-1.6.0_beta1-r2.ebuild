@@ -13,8 +13,9 @@ SRC_URI="https://getdnsapi.net/releases/${_SRCURI_P//./-}/${_SRCURI_P}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
-IUSE="doc examples +getdns-query +getdns-server-mon gnutls +idn libev libevent libuv static-libs stubby +unbound"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+# use gnutls[dane,openssl] needs more work on ~arm ~arm64
+IUSE="doc examples +getdns-query +getdns-server-mon +idn libev libevent libuv static-libs stubby +unbound"
 
 S="${WORKDIR}/${_SRCURI_P}"
 
@@ -28,10 +29,6 @@ DEPEND="
 	dev-libs/libyaml
 	dev-libs/openssl:=
 	idn? ( net-dns/libidn2:= )
-	gnutls? (
-		net-libs/gnutls:0=[dane,openssl]
-		dev-libs/nettle:0=
-	)
 	libev? ( dev-libs/libev:= )
 	libevent? ( dev-libs/libevent:= )
 	libuv? ( dev-libs/libuv:= )
@@ -73,7 +70,7 @@ src_configure() {
 		-DBUILD_STUBBY=$(usex stubby)
 		-DENABLE_STATIC=$(usex static-libs)
 		-DENABLE_UNBOUND_EVENT_API=$(usex unbound)
-		-DUSE_GNUTLS=$(usex gnutls)
+		-DUSE_GNUTLS=no
 		-DUSE_LIBEV=$(usex libev)
 		-DUSE_LIBEVENT2=$(usex libevent)
 		-DUSE_LIBIDN2=$(usex idn)
