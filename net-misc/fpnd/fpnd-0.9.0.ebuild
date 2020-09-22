@@ -125,6 +125,7 @@ python_install_all() {
 	if use examples; then
 		insinto "/usr/share/doc/${PF}/examples"
 		doins "${S}"/etc/stubby.yml
+		doins "${S}"/etc/dnsmasq.conf
 		use systemd && doins "${S}"/etc/fpnd.resolved
 		docompress -x "/usr/share/doc/${PF}/examples"
 	fi
