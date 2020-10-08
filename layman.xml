@@ -2,15 +2,15 @@
 <!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
 <repositories xmlns="" version="1.0">
   <repo quality="experimental" status="unofficial">
-    <name><![CDATA[python-overlay]]></name>
+    <name><![CDATA[freepn-overlay]]></name>
     <description lang="en"><![CDATA[FreePN Python Overlay]]></description>
-    <homepage>https://github.com/freepn/python-overlay</homepage>
+    <homepage>https://github.com/freepn/freepn-overlay</homepage>
     <owner type="person">
       <name><![CDATA[nerdboy]]></name>
       <email>nerdboy@gentoo.org</email>
     </owner>
-    <source type="git">git://github.com/freepn/python-overlay.git</source>
-    <source type="git">https://github.com/freepn/python-overlay.git</source>
-    <feed>https://github.com/freepn/python-overlay/commits/maint.atom</feed>
+    <source type="git">git://github.com/freepn/freepn-overlay.git</source>
+    <source type="git">https://github.com/freepn/freepn-overlay.git</source>
+    <feed>https://github.com/freepn/freepn-overlay/commits/maint.atom</feed>
   </repo>
 </repositories>
