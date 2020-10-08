@@ -60,7 +60,7 @@ DOCS=(
 	README_DNS_privacy.rst
 	README_DNS_setup.rst
 	README_examples.rst
-	README_0.9.1-release-notes.rst
+	README_0.9.3-release-notes.rst
 )
 
 pkg_setup() {
