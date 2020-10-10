@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer type="person">
+	<email>nerdboy@gentoo.org</email>
+	<name>Steve Arnold</name>
+</maintainer>
+<longdescription lang="en">
+	Fork of pyre2 with more speed/features
+</longdescription>
+<upstream>
+	<remote-id type="github"> andreasvc/pyre2</remote-id>
+</upstream>
+</pkgmetadata>
