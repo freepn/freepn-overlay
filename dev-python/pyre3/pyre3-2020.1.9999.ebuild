@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6..9} )
+PYTHON_COMPAT=( python3_{6..8} )
 DISTUTILS_USE_SETUPTOOLS=no
 inherit distutils-r1
 
@@ -30,6 +30,7 @@ RESTRICT="!test? ( test )"
 RDEPEND="${PYTHON_DEPS}"
 DEPEND="${RDEPEND}
 	dev-libs/re2:=
+	!dev-python/pyre2
 	>=dev-python/cython-0.20[${PYTHON_USEDEP}]"
 
 DOCS=( AUTHORS README.rst CHANGELIST )

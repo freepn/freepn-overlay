@@ -6,9 +6,9 @@
 	<name>Steve Arnold</name>
 </maintainer>
 <longdescription lang="en">
-	Fork of pyre2 with more speed/features
+	Python parser for Adblock Plus filters
 </longdescription>
 <upstream>
-	<remote-id type="github">andreasvc/pyre2</remote-id>
+	<remote-id type="github">scrapinghub/adblockparser</remote-id>
 </upstream>
 </pkgmetadata>
