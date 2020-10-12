@@ -10,7 +10,7 @@ inherit distutils-r1
 DESCRIPTION="Python bindings for dev-libs/re2"
 HOMEPAGE="https://github.com/andreasvc/pyre2/"
 
-if [[ ${PV} = 9999* ]]; then
+if [[ ${PV} = *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/andreasvc/pyre2.git"
 	EGIT_BRANCH="master"
 	# for now this is as close as possible to 0.2.23 release
@@ -31,8 +31,15 @@ RDEPEND="${PYTHON_DEPS}"
 DEPEND="${RDEPEND}
 	dev-libs/re2:=
 	!dev-python/pyre2
-	>=dev-python/cython-0.20[${PYTHON_USEDEP}]"
+	$(python_gen_cond_dep '>=dev-python/cython-0.20[${PYTHON_USEDEP}]' 'python*')
+"
 
 DOCS=( AUTHORS README.rst CHANGELIST )
 
 distutils_enable_tests setup.py
+
+python_prepare_all() {
+	sed -i -e "s|'lib'|'$(get_libdir)'|g" setup.py
+
+	distutils-r1_python_prepare_all
+}
