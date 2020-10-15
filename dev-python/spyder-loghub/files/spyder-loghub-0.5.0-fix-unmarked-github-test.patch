@@ -1,0 +1,10 @@
+--- a/loghub/tests/test_github_repo.py	2020-10-14 23:52:57.808756073 -0700
++++ b/loghub/tests/test_github_repo.py	2020-10-14 23:53:33.815482302 -0700
+@@ -57,6 +57,7 @@
+     gh.milestone(TEST_MILESTONE)
+ 
+ 
++@pytest.mark.skipif(NOT_ON_CI, reason='test on ci server only')
+ def test_invalid_token():
+     with pytest.raises(SystemExit):
+         gh = GitHubRepo(token='this-is-an-invalid-token', repo=REPO)

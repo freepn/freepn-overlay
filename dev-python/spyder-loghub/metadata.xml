@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<maintainer type="person">
+	<email>nerdboy@gentoo.org</email>
+	<name>Steve Arnold</name>
+</maintainer>
+<longdescription lang="en">
+	Changelog generator based on github milestones or tags.
+</longdescription>
+<upstream>
+	<remote-id type="github">spyder-ide/loghub</remote-id>
+</upstream>
+</pkgmetadata>
