@@ -68,7 +68,7 @@ src_install() {
 
 	insinto /etc/stunnel
 	doins "${FILESDIR}"/stunnel.conf
-	newinitd "${FILESDIR}"/stunnel-r1 stunnel
+	newinitd "${FILESDIR}"/stunnel-r2 stunnel
 	newconfd "${FILESDIR}"/stunnel.confd stunnel
 
 	doenvd "${T}"/20stunnel
