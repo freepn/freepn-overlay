@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7,8,9} )
+PYTHON_COMPAT=( python3_{6,7,8} )
 PYTHON_REQ_USE="sqlite"
 
 inherit distutils-r1 linux-info systemd
@@ -60,7 +60,7 @@ DOCS=(
 	README_DNS_privacy.rst
 	README_DNS_setup.rst
 	README_examples.rst
-	README_release-notes_latest.rst
+	README_0.9.5-release-notes.rst
 )
 
 pkg_setup() {
