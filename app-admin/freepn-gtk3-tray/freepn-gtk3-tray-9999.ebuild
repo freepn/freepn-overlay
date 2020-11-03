@@ -5,7 +5,7 @@ EAPI=7
 
 DISTUTILS_USE_SETUPTOOLS=no
 PYTHON_COMPAT=( python3_{6,7,8} )
-inherit distutils-r1 xdg
+inherit distutils-r1 xdg-utils
 
 DESCRIPTION="Graphical user interface for fpnd control and status"
 HOMEPAGE="https://github.com/freepn/freepn-gtk3-tray"
@@ -34,13 +34,24 @@ COMMON_DEPEND="${PYTHON_DEPS}
 	x11-libs/libnotify[introspection]
 "
 RDEPEND="${COMMON_DEPEND}
+	virtual/notification-daemon
 "
 # using gnome use flag with this makes repoman choke, but if you actually have
 # a gnome desktop you may want to install this:
 #   gnome-extra/gnome-shell-extension-appindicator
+# but for xfce4 you probably want this:
+#   xfce-extra/xfce4-notifyd
 
 BDEPEND="${PYTHON_DEPS}
 	dev-python/xmltodict[${PYTHON_USEDEP}]
 	dev-python/pygobject:3[${PYTHON_USEDEP}]
 	net-misc/fpnd[polkit,${PYTHON_USEDEP}]
 "
+
+pkg_postinst() {
+	xdg_icon_cache_update
+}
+
+pkg_postrm() {
+	xdg_icon_cache_update
+}
