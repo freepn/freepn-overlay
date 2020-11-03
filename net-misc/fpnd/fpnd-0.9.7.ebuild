@@ -60,7 +60,7 @@ DOCS=(
 	README_DNS_privacy.rst
 	README_DNS_setup.rst
 	README_examples.rst
-	README_"${PV}"-release-notes.rst
+	README_release-notes_latest.rst
 )
 
 pkg_setup() {
@@ -127,6 +127,7 @@ python_install_all() {
 		insinto "/usr/share/doc/${PF}/examples"
 		doins "${S}"/etc/stubby.yml
 		doins "${S}"/etc/dnsmasq.conf
+		newins "${S}"/etc/modules ip6_tables.conf
 		use systemd && newins "${S}"/etc/fpnd.resolved 00-ext-dns.conf
 		docompress -x "/usr/share/doc/${PF}/examples"
 	fi
