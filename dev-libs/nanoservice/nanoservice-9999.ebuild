@@ -1,9 +1,9 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7,8} )
+PYTHON_COMPAT=( python{3_5,3_6,3_7,3_8} )
 
 inherit distutils-r1
 
@@ -11,7 +11,7 @@ DESCRIPTION="Small Python library for writing lightweight networked services"
 HOMEPAGE="https://github.com/walkr/nanoservice"
 
 if [[ ${PV} = 9999* ]]; then
-	EGIT_REPO_URI="https://github.com/freepn/nanoservice.git"
+	EGIT_REPO_URI="https://github.com/sarnold/nanoservice.git"
 	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
@@ -32,8 +32,6 @@ DEPEND="${PYTHON_DEPS}
 	dev-python/msgpack[${PYTHON_USEDEP}]
 	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
 "
-
-PATCHES=( "${FILESDIR}/${PN}-remove-deps-fromsetup-py.patch" )
 
 python_test() {
 	distutils_install_for_testing
