@@ -5,19 +5,18 @@ EAPI=7
 
 PYTHON_COMPAT=( python3_{6..9} )
 
-MY_PV="${PV//_}"
-
 inherit distutils-r1
 
-DESCRIPTION="nanomsg wrapper for python with multiple backends (CPython and ctypes)"
+DESCRIPTION="nanomsg wrapper for python with multiple backends"
 HOMEPAGE="https://github.com/tonysimpson/nanomsg-python"
 
 if [[ ${PV} = 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/freepn/nanomsg-python.git"
-	EGIT_BRANCH="master"
+	EGIT_BRANCH="python-tests"
 	inherit git-r3
 	KEYWORDS=""
 else
+	MY_PV="${PV/_p/-}"
 	SRC_URI="https://github.com/freepn/${PN}/archive/${MY_PV}.tar.gz -> ${PN}-${MY_PV}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 	S="${WORKDIR}/${PN}-${MY_PV}"
@@ -32,9 +31,7 @@ RDEPEND="${PYTHON_DEPS}"
 DEPEND="${PYTHON_DEPS}
 	dev-libs/nanomsg:=
 	dev-python/setuptools[${PYTHON_USEDEP}]
-	test? ( dev-python/nose[${PYTHON_USEDEP}] )
+	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
 "
 
-python_test() {
-	"${EPYTHON}" -m nose -sv . || die "Testing failed with ${EPYTHON}"
-}
+distutils_enable_tests pytest
