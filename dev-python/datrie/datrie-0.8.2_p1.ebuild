@@ -32,6 +32,7 @@ RDEPEND="${PYTHON_DEPS}"
 DEPEND="${PYTHON_DEPS}
 	dev-libs/libdatrie
 	dev-python/setuptools[${PYTHON_USEDEP}]
+	$(python_gen_cond_dep '>=dev-python/cython-0.20[${PYTHON_USEDEP}]' 'python*')
 	test? ( dev-python/pytest[${PYTHON_USEDEP}]
 		<=dev-python/hypothesis-4.57.1[${PYTHON_USEDEP}] )
 "
