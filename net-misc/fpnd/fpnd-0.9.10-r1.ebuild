@@ -63,6 +63,8 @@ DOCS=(
 	README_release-notes_latest.rst
 )
 
+PATCHES=( "${FILESDIR}/${P}-systemd-shell-path-fix.patch" )
+
 pkg_setup() {
 	linux-info_pkg_setup
 

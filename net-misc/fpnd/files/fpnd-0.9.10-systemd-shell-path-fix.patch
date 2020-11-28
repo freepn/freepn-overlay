@@ -1,0 +1,13 @@
+diff --git a/etc/fpnd.service b/etc/fpnd.service
+index f21a5bb..16442dd 100644
+--- a/etc/fpnd.service
++++ b/etc/fpnd.service
+@@ -16,7 +16,7 @@ AmbientCapabilities=CAP_NET_ADMIN CAP_NET_RAW CAP_DAC_OVERRIDE
+ CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_RAW CAP_DAC_OVERRIDE
+ PermissionsStartOnly=true
+ 
+-ExecStartPre=/usr/sbin/modprobe ip6_tables
++ExecStartPre=bash -c 'modprobe ip6_tables'
+ ExecStart=/usr/lib/fpnd/fpnd.py start
+ 
+ KillSignal=SIGTERM

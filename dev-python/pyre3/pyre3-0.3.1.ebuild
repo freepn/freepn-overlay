@@ -13,12 +13,11 @@ HOMEPAGE="https://github.com/andreasvc/pyre2/"
 if [[ ${PV} = *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/andreasvc/pyre2.git"
 	EGIT_BRANCH="master"
-	# for now this is as close as possible to 0.2.23 release
-	EGIT_COMMIT="cfc6f2abec098d38e6758347cd1b60bfcdbe72fc"
 	inherit git-r3
-	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+	KEYWORDS=""
 else
-	SRC_URI=""
+	MY_PN="${PN/3/2}"
+	SRC_URI="https://github.com/freepn/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
@@ -35,6 +34,8 @@ DEPEND="${RDEPEND}
 "
 
 DOCS=( AUTHORS README.rst CHANGELIST )
+
+S="${WORKDIR}/${MY_PN}-${PV}"
 
 distutils_enable_tests setup.py
 
