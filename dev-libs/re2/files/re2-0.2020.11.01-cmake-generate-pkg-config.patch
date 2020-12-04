@@ -1,0 +1,96 @@
+add enhanced cmake patch for gnu-compliant libs and pkg-config
+
+Author: Stephen L Arnold <nerdboy@gentoo.org>
+
+---
+Last-Update: 2020-11-28
+
+--- re2-20201001.orig/CMakeLists.txt
++++ re2-20201001/CMakeLists.txt
+@@ -18,13 +18,15 @@ if(NOT CMAKE_CXX_STANDARD)
+   set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ endif()
+ 
+-option(BUILD_SHARED_LIBS "build shared libraries" OFF)
++option(BUILD_SHARED_LIBS "build shared libraries" ON)
++option(BUILD_STATIC_LIBS "Build static libraries" OFF)
+ option(USEPCRE "use PCRE in tests and benchmarks" OFF)
+ 
+ # CMake seems to have no way to enable/disable testing per subproject,
+ # so we provide an option similar to BUILD_TESTING, but just for RE2.
+ option(RE2_BUILD_TESTING "enable testing for RE2" ON)
+ 
++set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_PREFIX}/share/pkgconfig" CACHE PATH "Install directory for pkgconfig (.pc) files")
+ set(EXTRA_TARGET_LINK_LIBRARIES)
+ 
+ if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+@@ -83,9 +85,17 @@ set(RE2_SOURCES
+     util/strutil.cc
+     )
+ 
++if(BUILD_STATIC_LIBS)
++    add_library(re2static STATIC ${RE2_SOURCES})
++    set_target_properties(re2static PROPERTIES OUTPUT_NAME re2)
++endif()
+ add_library(re2 ${RE2_SOURCES})
+ add_library(re2::re2 ALIAS re2)
+ 
++# this looks weird, but needed for correct SOVERSION links
++set_target_properties(re2 PROPERTIES VERSION 9.0.0)
++set_target_properties(re2 PROPERTIES SOVERSION 9)
++
+ if(RE2_BUILD_TESTING)
+   set(TESTING_SOURCES
+       re2/testing/backtrack.cc
+@@ -149,10 +159,22 @@ set(RE2_HEADERS
+ 
+ install(FILES ${RE2_HEADERS}
+         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/re2)
+-install(TARGETS re2 EXPORT re2Config
+-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+-        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++if(BUILD_STATIC_LIBS)
++    install(TARGETS re2 re2static EXPORT re2Config
++            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++else()
++    install(TARGETS re2 EXPORT re2Config
++            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
++            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
++            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
++            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++endif()
+ install(EXPORT re2Config
+         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/re2 NAMESPACE re2::)
++
++set(RE2_PC ${CMAKE_CURRENT_BINARY_DIR}/re2.pc)
++configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/re2.pc.in ${RE2_PC} @ONLY)
++install(FILES ${RE2_PC} DESTINATION "${INSTALL_PKGCONFIG_DIR}")
+--- re2-20201001.orig/re2.pc
++++ /dev/null
+@@ -1,8 +0,0 @@
+-includedir=@includedir@
+-libdir=@libdir@
+-
+-Name: re2
+-Description: RE2 is a fast, safe, thread-friendly regular expression engine.
+-Version: 0.0.0
+-Cflags: -std=c++11 -pthread -I${includedir}
+-Libs: -pthread -L${libdir} -lre2
+--- /dev/null
++++ re2-20201001/re2.pc.in
+@@ -0,0 +1,10 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++exec_prefix=@CMAKE_INSTALL_PREFIX@
++libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
++includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
++
++Name: re2
++Description: RE2 is a fast, safe, thread-friendly regular expression engine.
++Version: 0.0.0
++Cflags: -std=c++11 -pthread -I${includedir}
++Libs: -pthread -L${libdir} -lre2

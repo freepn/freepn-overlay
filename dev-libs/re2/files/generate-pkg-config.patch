@@ -1,0 +1,31 @@
+add enhanced cmake patch for gnu-compliant libs and pkg-config
+
+Author: Stephen L Arnold <nerdboy@gentoo.org>
+
+---
+Last-Update: 2020-11-28
+
+--- a/re2.pc
++++ /dev/null
+@@ -1,8 +0,0 @@
+-includedir=@includedir@
+-libdir=@libdir@
+-
+-Name: re2
+-Description: RE2 is a fast, safe, thread-friendly regular expression engine.
+-Version: 0.0.0
+-Cflags: -std=c++11 -pthread -I${includedir}
+-Libs: -pthread -L${libdir} -lre2
+--- /dev/null
++++ b/re2.pc.in
+@@ -0,0 +1,10 @@
++prefix=@CMAKE_INSTALL_PREFIX@
++exec_prefix=@CMAKE_INSTALL_PREFIX@
++libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
++includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
++
++Name: re2
++Description: RE2 is a fast, safe, thread-friendly regular expression engine.
++Version: 9.0.0
++Cflags: -std=c++11 -pthread -I${includedir}
++Libs: -pthread -L${libdir} -lre2
