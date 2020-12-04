@@ -3,8 +3,8 @@
 
 EAPI=7
 
-DISTUTILS_USE_SETUPTOOLS=no
-PYTHON_COMPAT=( python3_{6,7,8} )
+PYTHON_COMPAT=( python3_{6,7,8,9} )
+
 inherit distutils-r1 xdg-utils
 
 DESCRIPTION="Graphical user interface for fpnd control and status"
@@ -27,14 +27,20 @@ IUSE=""
 # no tests except pylint, so...
 RESTRICT="test"
 
-COMMON_DEPEND="${PYTHON_DEPS}
+RDEPEND="${PYTHON_DEPS}
 	>=dev-libs/libdbusmenu-0.6.2[gtk3]
 	dev-libs/libappindicator[introspection]
 	x11-libs/gtk+:3[introspection]
 	x11-libs/libnotify[introspection]
-"
-RDEPEND="${COMMON_DEPEND}
 	virtual/notification-daemon
+	x11-themes/hicolor-icon-theme
+"
+
+DEPEND="${PYTHON_DEPS}
+	dev-python/xmltodict[${PYTHON_USEDEP}]
+	dev-python/pygobject:3[cairo,${PYTHON_USEDEP}]
+	>=dev-python/pycairo-1.20.0[${PYTHON_USEDEP}]
+	net-misc/fpnd[polkit,${PYTHON_USEDEP}]
 "
 # using gnome use flag with this makes repoman choke, but if you actually have
 # a gnome desktop you may want to install this:
@@ -42,11 +48,7 @@ RDEPEND="${COMMON_DEPEND}
 # but for xfce4 you probably want this:
 #   xfce-extra/xfce4-notifyd
 
-BDEPEND="${PYTHON_DEPS}
-	dev-python/xmltodict[${PYTHON_USEDEP}]
-	dev-python/pygobject:3[${PYTHON_USEDEP}]
-	net-misc/fpnd[polkit,${PYTHON_USEDEP}]
-"
+DEPEND="${RDEPEND}"
 
 pkg_postinst() {
 	xdg_icon_cache_update

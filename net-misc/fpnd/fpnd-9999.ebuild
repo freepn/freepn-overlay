@@ -5,7 +5,9 @@ EAPI=7
 
 PYTHON_COMPAT=( python3_{6,7,8,9} )
 PYTHON_REQ_USE="sqlite"
+#DISTUTILS_SINGLE_IMPL=1
 
+DISTUTILS_USE_SETUPTOOLS=no
 inherit distutils-r1 linux-info systemd
 
 DESCRIPTION="Python package for fpnd network daemon"
@@ -26,7 +28,7 @@ LICENSE="AGPL-3"
 SLOT="0"
 IUSE="-adhoc examples polkit sched systemd sudo test"
 
-RDEPEND="${PYTHON_DEPS}
+RDEPEND="
 	sched? ( sys-process/at )
 	sys-apps/iproute2
 	net-firewall/iptables
@@ -36,7 +38,7 @@ RDEPEND="${PYTHON_DEPS}
 	acct-user/fpnd
 "
 
-BDEPEND="${PYTHON_DEPS}
+DEPEND="${PYTHON_DEPS}
 	dev-python/appdirs[${PYTHON_USEDEP}]
 	dev-python/daemon[${PYTHON_USEDEP}]
 	dev-python/datrie[${PYTHON_USEDEP}]
@@ -46,8 +48,7 @@ BDEPEND="${PYTHON_DEPS}
 	dev-libs/nanoservice[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	test? ( >=dev-python/mock-2.0.0[${PYTHON_USEDEP}]
-		>=dev-python/pytest-3.0.3[${PYTHON_USEDEP}]
-		>=dev-python/coverage-4.5.2[${PYTHON_USEDEP}] )
+		>=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
 "
 # additional test dependcies not required for USE=test
 #	dev-python/pytest-cov
@@ -89,6 +90,7 @@ python_prepare_all() {
 	)
 	if use systemd; then
 		sed -i -e "s|usr/lib|usr/libexec|" "${S}"/etc/"${PN}".ini
+		sed -i -e "s|usr/lib/fpnd|usr/bin|" "${S}"/etc/"${PN}".service
 	else
 		PATCHES+=( "${FILESDIR}"/${PN}-set-openrc-paths.patch )
 	fi
