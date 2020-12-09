@@ -28,7 +28,7 @@ IUSE="test"
 
 RDEPEND="${PYTHON_DEPS}"
 
-DEPEND="${PYTHON_DEPS}
+DEPEND="${RDEPEND}
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	dev-python/pystache[${PYTHON_USEDEP}]
 	dev-python/mako[${PYTHON_USEDEP}]
