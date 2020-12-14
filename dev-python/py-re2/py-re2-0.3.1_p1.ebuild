@@ -3,7 +3,7 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6..9} )
+PYTHON_COMPAT=( python3_{6..8} )
 DISTUTILS_USE_SETUPTOOLS=no
 inherit distutils-r1
 
@@ -11,14 +11,15 @@ DESCRIPTION="Python bindings for dev-libs/re2"
 HOMEPAGE="https://github.com/andreasvc/pyre2/"
 
 if [[ ${PV} = *9999* ]]; then
-	EGIT_REPO_URI="https://github.com/andreasvc/pyre2.git"
+	EGIT_REPO_URI="https://github.com/freepn/py-re2.git"
 	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
 else
-	MY_PN="${PN/3/2}"
-	SRC_URI="https://github.com/freepn/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+	MY_PV="${PV/_p/-}"
+	SRC_URI="https://github.com/freepn/${PN}/archive/${MY_PV}.tar.gz -> ${PN}-${MY_PV}.tar.gz"
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+	S="${WORKDIR}/${PN}-${MY_PV}"
 fi
 
 LICENSE="BSD"
@@ -33,9 +34,7 @@ DEPEND="${RDEPEND}
 	$(python_gen_cond_dep '>=dev-python/cython-0.20[${PYTHON_USEDEP}]' 'python*')
 "
 
-DOCS=( AUTHORS README.rst CHANGELIST )
-
-S="${WORKDIR}/${MY_PN}-${PV}"
+DOCS=( AUTHORS README.rst CHANGELOG.rst )
 
 distutils_enable_tests setup.py
 
