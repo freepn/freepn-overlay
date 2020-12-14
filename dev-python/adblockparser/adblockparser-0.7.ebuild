@@ -27,11 +27,11 @@ RESTRICT="!test? ( test )"
 
 RDEPEND="${PYTHON_DEPS}"
 DEPEND="${RDEPEND}
-	dev-python/pyre3[${PYTHON_USEDEP}]
+	dev-python/py-re2[${PYTHON_USEDEP}]
 	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
 "
 
-DOCS=( README.rst CHANGES.rst )
+DOCS=( README.rst CHANGELOG.rst AUTHORS )
 
 distutils_enable_tests pytest
 
