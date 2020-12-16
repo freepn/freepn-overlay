@@ -31,7 +31,7 @@ DEPEND="${RDEPEND}
 	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
 "
 
-DOCS=( README.rst CHANGELOG.rst AUTHORS )
+DOCS=( README.rst CHANGES.rst )
 
 distutils_enable_tests pytest
 
