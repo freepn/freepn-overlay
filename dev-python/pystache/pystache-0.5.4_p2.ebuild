@@ -28,7 +28,7 @@ IUSE="test"
 
 RDEPEND="${PYTHON_DEPS}"
 
-DEPEND="${PYTHON_DEPS}
+DEPEND="${RDEPEND}
 	dev-python/pyyaml[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
 "
