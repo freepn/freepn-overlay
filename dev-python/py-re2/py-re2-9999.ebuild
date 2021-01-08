@@ -12,7 +12,7 @@ HOMEPAGE="https://github.com/andreasvc/pyre2/"
 
 if [[ ${PV} = *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/freepn/py-re2.git"
-	EGIT_BRANCH="skbuild"
+	EGIT_BRANCH="pybind11"
 	inherit git-r3
 	KEYWORDS=""
 else
@@ -30,9 +30,9 @@ RESTRICT="!test? ( test )"
 RDEPEND="dev-libs/re2:="
 DEPEND="${RDEPEND}"
 BDEPEND="dev-python/cython[${PYTHON_USEDEP}]
-	dev-python/scikit-build[${PYTHON_USEDEP}]
-	dev-python/setuptools_scm[${PYTHON_USEDEP}]
+	dev-python/pybind11[${PYTHON_USEDEP}]
 	test? (
+		dev-python/simplejson[${PYTHON_USEDEP}]
 		dev-python/nose[${PYTHON_USEDEP}] )
 "
 
@@ -40,29 +40,24 @@ DOCS=( AUTHORS README.rst CHANGELOG.rst )
 
 RESTRICT="!test? ( test )"
 
-python_prepare_all() {
-	if [[ ${PV} != *9999* ]]; then
-		sed -i -e "s|'lib'|'$(get_libdir)'|g" setup.py
-	fi
-
-	distutils-r1_python_prepare_all
-}
-
 src_configure() {
 	python_setup
-	PYTHON_LIB_PATH="$(python_get_sitedir)"
-	local mycmakeargs=(
-		-DCMAKE_MODULE_PATH="${PYTHON_LIB_PATH}/skbuild/resources/cmake;${S}/CMake"
-	)
-
 	cmake_src_configure
 	distutils-r1_src_configure
 }
 
+src_compile() {
+	distutils-r1_src_compile
+}
+
+src_install() {
+	distutils-r1_src_install
+}
+
 python_test() {
 	# Run doc tests first, needs extension
-	PYTHONPATH="${BUILD_DIR}/src" nosetests -sx tests/re2_test.py || die "doc tests failed"
-	PYTHONPATH="${BUILD_DIR}/src" nosetests -sx tests/test_re.py || die "tests failed"
+	nosetests -sx tests/re2_test.py || die "doc tests failed with ${EPYTHON}"
+	nosetests -sx tests/test_re.py || die "tests failed with ${EPYTHON}"
 }
 
 src_test() {
