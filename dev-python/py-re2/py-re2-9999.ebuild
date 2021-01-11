@@ -12,7 +12,7 @@ HOMEPAGE="https://github.com/andreasvc/pyre2/"
 
 if [[ ${PV} = *9999* ]]; then
 	EGIT_REPO_URI="https://github.com/freepn/py-re2.git"
-	EGIT_BRANCH="pybind11"
+	EGIT_BRANCH="master"
 	inherit git-r3
 	KEYWORDS=""
 else
@@ -32,7 +32,6 @@ DEPEND="${RDEPEND}"
 BDEPEND="dev-python/cython[${PYTHON_USEDEP}]
 	dev-python/pybind11[${PYTHON_USEDEP}]
 	test? (
-		dev-python/simplejson[${PYTHON_USEDEP}]
 		dev-python/nose[${PYTHON_USEDEP}] )
 "
 
