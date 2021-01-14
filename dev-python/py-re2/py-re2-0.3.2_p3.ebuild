@@ -4,8 +4,8 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{6..8} )
-DISTUTILS_USE_SETUPTOOLS=no
-inherit distutils-r1
+DISTUTILS_USE_SETUPTOOLS=bdepend
+inherit distutils-r1 cmake
 
 DESCRIPTION="Python bindings for dev-libs/re2"
 HOMEPAGE="https://github.com/andreasvc/pyre2/"
@@ -27,19 +27,38 @@ SLOT="0"
 IUSE="test"
 RESTRICT="!test? ( test )"
 
-RDEPEND="${PYTHON_DEPS}"
-DEPEND="${RDEPEND}
-	dev-libs/re2:=
-	!dev-python/pyre2
-	$(python_gen_cond_dep '>=dev-python/cython-0.20[${PYTHON_USEDEP}]' 'python*')
+RDEPEND="dev-libs/re2:="
+DEPEND="${RDEPEND}"
+BDEPEND="dev-python/cython[${PYTHON_USEDEP}]
+	dev-python/pybind11[${PYTHON_USEDEP}]
+	test? (
+		dev-python/nose[${PYTHON_USEDEP}] )
 "
 
 DOCS=( AUTHORS README.rst CHANGELOG.rst )
 
-distutils_enable_tests setup.py
+RESTRICT="!test? ( test )"
 
-python_prepare_all() {
-	sed -i -e "s|'lib'|'$(get_libdir)'|g" setup.py
+src_configure() {
+	python_setup
+	cmake_src_configure
+	distutils-r1_src_configure
+}
 
-	distutils-r1_python_prepare_all
+src_compile() {
+	distutils-r1_src_compile
+}
+
+src_install() {
+	distutils-r1_src_install
+}
+
+python_test() {
+	# Run doc tests first, needs extension
+	nosetests -sx tests/re2_test.py || die "doc tests failed with ${EPYTHON}"
+	nosetests -sx tests/test_re.py || die "tests failed with ${EPYTHON}"
+}
+
+src_test() {
+	python_test
 }
