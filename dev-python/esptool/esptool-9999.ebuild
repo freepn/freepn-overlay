@@ -1,0 +1,29 @@
+# Copyright 1999-2020 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=6
+
+PYTHON_COMPAT=( python3_6 )
+
+inherit distutils-r1 git-r3
+
+DESCRIPTION="ESP8266 ROM Bootloader utility"
+HOMEPAGE="https://github.com/espressif/esptool/"
+
+EGIT_REPO_URI="https://github.com/espressif/esptool.git"
+if [[ ${PV} = 9999* ]]; then
+	KEYWORDS=""
+else
+	EGIT_COMMIT=v${PV}
+	KEYWORDS="~amd64 ~arm ~x86"
+fi
+
+LICENSE="BSD"
+SLOT="0"
+IUSE=""
+
+DEPEND=""
+
+RDEPEND="${DEPEND}
+	dev-python/pyserial
+	"
