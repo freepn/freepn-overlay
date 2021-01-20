@@ -1,6 +1,23 @@
---- a/CMakeLists.txt	2020-11-30 21:17:23.023610918 -0800
-+++ b/CMakeLists.txt	2020-12-01 11:07:21.307143872 -0800
-@@ -16,17 +16,39 @@
+From 5bb5ba9f728e23786c631841c349631c669d21ef Mon Sep 17 00:00:00 2001
+From: Stephen L Arnold <nerdboy@gentoo.org>
+Date: Tue, 19 Jan 2021 18:59:59 -0800
+Subject: [PATCH] cmake: cleanup build_libs, add findICU, generate flexible
+ pkg-config file
+
+Signed-off-by: Stephen L Arnold <nerdboy@gentoo.org>
+---
+ CMakeLists.txt                                |  49 ++++++-
+ re2.pc                                        |   8 -
+ re2.pc.in                                     |  10 ++
+ 4 files changed, 194 insertions(+), 10 deletions(-)
+ delete mode 100644 re2.pc
+ create mode 100644 re2.pc.in
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 44a4772..756b849 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -16,17 +16,39 @@ include(GNUInstallDirs)
  if(NOT CMAKE_CXX_STANDARD)
    set(CMAKE_CXX_STANDARD 11)
    set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -41,7 +58,7 @@
  if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
    if(MSVC_VERSION LESS 1900)
      message(FATAL_ERROR "you need Visual Studio 2015 or later")
-@@ -83,8 +105,17 @@
+@@ -83,8 +105,17 @@ set(RE2_SOURCES
      util/strutil.cc
      )
  
@@ -59,41 +76,35 @@
  
  if(RE2_BUILD_TESTING)
    set(TESTING_SOURCES
-@@ -149,10 +180,22 @@
+@@ -149,10 +180,24 @@ set(RE2_HEADERS
  
  install(FILES ${RE2_HEADERS}
          DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/re2)
 -install(TARGETS re2 EXPORT re2Config
--        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
--        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
--        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
--        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-+if(BUILD_STATIC_LIBS)
-+    install(TARGETS re2 re2static EXPORT re2Config
-+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-+            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-+else()
-+    install(TARGETS re2 EXPORT re2Config
-+            ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-+            LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-+            RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-+            INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++
++if(BUILD_SHARED_LIBS)
++  list(APPEND RE2_LIBS re2)
 +endif()
++
++if(BUILD_STATIC_LIBS)
++  list(APPEND RE2_LIBS re2static)
++endif()
++
++install(TARGETS ${RE2_LIBS} EXPORT re2Config
+         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
++
  install(EXPORT re2Config
          DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/re2 NAMESPACE re2::)
 +
 +set(RE2_PC ${CMAKE_CURRENT_BINARY_DIR}/re2.pc)
 +configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/re2.pc.in ${RE2_PC} @ONLY)
 +install(FILES ${RE2_PC} DESTINATION "${INSTALL_PKGCONFIG_DIR}")
-add enhanced cmake patch for gnu-compliant libs and pkg-config
-
-Author: Stephen L Arnold <nerdboy@gentoo.org>
-
----
-Last-Update: 2020-11-28
-
+diff --git a/re2.pc b/re2.pc
+deleted file mode 100644
+index 50fd637..0000000
 --- a/re2.pc
 +++ /dev/null
 @@ -1,8 +0,0 @@
@@ -105,6 +116,9 @@ Last-Update: 2020-11-28
 -Version: 0.0.0
 -Cflags: -std=c++11 -pthread -I${includedir}
 -Libs: -pthread -L${libdir} -lre2
+diff --git a/re2.pc.in b/re2.pc.in
+new file mode 100644
+index 0000000..2ce2ba9
 --- /dev/null
 +++ b/re2.pc.in
 @@ -0,0 +1,10 @@
@@ -118,3 +132,6 @@ Last-Update: 2020-11-28
 +Version: 9.0.0
 +Cflags: -std=c++11 -pthread -I${includedir}
 +Libs: -pthread -L${libdir} -lre2
+-- 
+2.29.2
+

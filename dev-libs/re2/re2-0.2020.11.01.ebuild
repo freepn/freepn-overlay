@@ -34,12 +34,11 @@ HTML_DOCS=( doc/syntax.html )
 RESTRICT="!test? ( test )"
 
 PATCHES=(
-	"${FILESDIR}/${P}-cmake-findICU-test.patch"
+	"${FILESDIR}/${P}-cmake-cleanup-build_libs-add-findICU.patch"
 )
 
 multilib_src_configure() {
 	local mycmakeargs=(
-		-DBUILD_SHARED_LIBS=ON
 		-DHAVE_ICU=$(usex icu)
 		-DRE2_BUILD_TESTING=$(usex test)
 	)
