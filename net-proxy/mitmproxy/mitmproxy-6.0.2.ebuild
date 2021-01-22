@@ -4,7 +4,7 @@
 EAPI=7
 
 DISTUTILS_USE_SETUPTOOLS=rdepend
-PYTHON_COMPAT=( python3_{7,8,9} )
+PYTHON_COMPAT=( python3_{8,9} )
 PYTHON_REQ_USE="sqlite"
 inherit distutils-r1
 
@@ -14,7 +14,7 @@ SRC_URI="https://github.com/mitmproxy/mitmproxy/archive/v${PV}.tar.gz -> ${P}.ta
 
 LICENSE="MIT"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="~amd64 ~arm64 ~x86"
 IUSE="libressl test"
 
 RDEPEND="
@@ -63,33 +63,8 @@ RESTRICT="!test? ( test )"
 distutils_enable_tests pytest
 
 python_prepare_all() {
-	# loosen dependencies
-	sed -i \
-		-e '/>/s/>.*/",/g' \
-		-e '/urwid/s/==2\.0\.1,!=2\.1\.0//' \
-		setup.py || die
-
-	# remove failing test
+	# remove failing test (all other tests appear to work in 6.0.2)
 	sed -i 's/test_get_version/_&/g' test/mitmproxy/test_version.py || die
-
-	# https://github.com/mitmproxy/mitmproxy/issues/4136
-	# https://bugs.gentoo.org/740336
-	rm test/mitmproxy/addons/test_termlog.py || die
-
-	# requires asynctest
-	rm test/mitmproxy/addons/test_readfile.py || die
-
-	# Passes with OpenSSL 1.1.1g, fails with OpenSSL 1.1.1h
-	# https://github.com/gentoo/gentoo/pull/17411#discussion_r497270699
-	sed \
-		-e 's/test_mode_none_should_pass_without_sni/_&/g' \
-		-e 's/test_mode_strict_w_pemfile_should_pass/_&/g' \
-		-e 's/test_mode_strict_w_confdir_should_pass/_&/g' \
-		-i test/mitmproxy/net/test_tcp.py || die
-	sed \
-		-e 's/test_verification_w_confdir/_&/g' \
-		-e 's/test_verification_w_pemfile/_&/g' \
-		-i test/mitmproxy/proxy/test_server.py || die
 
 	distutils-r1_python_prepare_all
 }
