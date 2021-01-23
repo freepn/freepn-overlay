@@ -6,7 +6,7 @@ PYTHON_COMPAT=( python3_{6..9} )
 DISTUTILS_USE_SETUPTOOLS=rdepend
 PYTHON_REQ_USE='ssl,threads(+)'
 
-inherit distutils-r1
+inherit check-reqs distutils-r1
 
 DESCRIPTION="A personal adblocking and filtering privacy proxy"
 HOMEPAGE="https://github.com/freepn/freepn-proxy"
@@ -44,6 +44,12 @@ DEPEND="${RDEPEND}
 "
 
 RESTRICT="!test? ( test )"
+
+CHECKREQS_MEMORY="1750M"  # needs more memory as blocklist size increases
+
+pkg_pretend() {
+	check-reqs_pkg_pretend
+}
 
 python_prepare_all() {
 	sed -i -e "s|==|>=|g" setup.cfg || die
