@@ -1,10 +1,11 @@
-# Copyright 2020 Gentoo Authors
+# Copyright 2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-PYTHON_COMPAT=( python3_{6..8} )
+CMAKE_MAKEFILE_GENERATOR="ninja"
+PYTHON_COMPAT=( python3_{6..9} )
 DISTUTILS_USE_SETUPTOOLS=bdepend
+
 inherit distutils-r1 cmake
 
 DESCRIPTION="Python bindings for dev-libs/re2"
@@ -29,7 +30,9 @@ RESTRICT="!test? ( test )"
 
 RDEPEND="dev-libs/re2:="
 DEPEND="${RDEPEND}"
-BDEPEND="dev-python/cython[${PYTHON_USEDEP}]
+
+BDEPEND=">=dev-util/cmake-3.15
+	dev-python/cython[${PYTHON_USEDEP}]
 	dev-python/pybind11[${PYTHON_USEDEP}]
 	test? (
 		dev-python/nose[${PYTHON_USEDEP}] )
