@@ -4,6 +4,7 @@
 EAPI=7
 PYTHON_COMPAT=( python3_{6..9} )
 DISTUTILS_USE_SETUPTOOLS=rdepend
+PYTHON_REQ_USE='ssl,threads(+)'
 
 inherit distutils-r1
 
@@ -20,7 +21,7 @@ else
 	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
-LICENSE="GPL-2"
+LICENSE="AGPL-3"
 SLOT="0"
 IUSE="test"
 
