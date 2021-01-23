@@ -27,7 +27,8 @@ IUSE="test"
 RDEPEND="
 	net-misc/wget
 	dev-libs/nss
-	>=net-proxy/mitmproxy-5.1.0[${PYTHON_USEDEP}]
+	dev-python/lxml[${PYTHON_USEDEP}]
+	>=net-proxy/mitmproxy-5.3.0[${PYTHON_USEDEP}]
 	dev-python/importlib_resources[${PYTHON_USEDEP}]
 	>=dev-python/appdirs-1.4.4[${PYTHON_USEDEP}]
 	dev-python/munch[${PYTHON_USEDEP}]
@@ -50,7 +51,6 @@ python_prepare_all() {
 
 python_test() {
 	distutils_install_for_testing
-	${EPYTHON} ${S}/freepn/adblock/test/adblock_test.py
-	#distutils_install_for_testing
 	freepn-proxy --test || die "Selftest failed with ${EPYTHON}"
+	${EPYTHON} ${S}/freepn/adblock/test/adblock_test.py
 }
