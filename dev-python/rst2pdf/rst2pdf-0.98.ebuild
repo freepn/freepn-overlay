@@ -1,9 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6,7,8} )
+PYTHON_COMPAT=( python3_{6,7,8,9} )
 DISTUTILS_USE_SETUPTOOLS=rdepend
 
 inherit distutils-r1
@@ -15,23 +15,26 @@ SRC_URI="mirror://pypi/${P:0:1}/${PN}/${P}.tar.gz"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
-IUSE="svg"
+IUSE="math sphinx svg"
 
 BDEPEND="${PYTHON_DEPS}
+	dev-python/jinja[${PYTHON_USEDEP}]
 	dev-python/pillow[${PYTHON_USEDEP}]
 	dev-python/pdfrw[${PYTHON_USEDEP}]
+	dev-python/pyyaml[${PYTHON_USEDEP}]
 	dev-python/pygments[${PYTHON_USEDEP}]
 	dev-python/smartypants[${PYTHON_USEDEP}]
 	>=dev-python/reportlab-2.6[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	dev-python/docutils[${PYTHON_USEDEP}]
-	svg? ( media-gfx/svg2rlg[${PYTHON_USEDEP}] )
-	test? ( >=dev-python/pytest-3.0.3[${PYTHON_USEDEP}] )
+	math? ( dev-python/matplotlib[${PYTHON_USEDEP}] )
+	svg? ( dev-python/svglib[${PYTHON_USEDEP}] )
+	sphinx? ( dev-python/sphinx[${PYTHON_USEDEP}] )
 "
 
-# >=reportlab-2.6: https://code.google.com/p/rst2pdf/issues/detail?id=474
-
-distutils_enable_tests pytest
+# restrict tests because: the price is way too high (in both developer time
+# to unhork and cost per megawatt in cpu power)
+RESTRICT="test"
 
 src_install() {
 	distutils-r1_src_install
