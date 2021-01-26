@@ -92,6 +92,7 @@ src_configure() {
 	local myconf=(
 		--nopyc
 		--nopyo
+                --enable-pylib ext
 		--refclock="${CLOCKSTRING}"
 		--build-epoch="$(date +%s)"
 		$(use doc	|| echo "--disable-doc")
