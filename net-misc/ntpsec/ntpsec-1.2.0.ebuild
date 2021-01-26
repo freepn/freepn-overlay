@@ -14,7 +14,7 @@ if [[ ${PV} == *9999* ]]; then
 else
 	SRC_URI="ftp://ftp.ntpsec.org/pub/releases/${PN}-${PV}.tar.gz"
 	RESTRICT="mirror"
-	KEYWORDS="amd64 arm arm64 ~x86"
+	KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 fi
 
 DESCRIPTION="The NTP reference implementation, refactored"
@@ -92,7 +92,7 @@ src_configure() {
 	local myconf=(
 		--nopyc
 		--nopyo
-                --enable-pylib ext
+		--enable-pylib ext
 		--refclock="${CLOCKSTRING}"
 		--build-epoch="$(date +%s)"
 		$(use doc	|| echo "--disable-doc")
