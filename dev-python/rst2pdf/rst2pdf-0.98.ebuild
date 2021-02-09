@@ -17,6 +17,10 @@ SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="math sphinx svg"
 
+RDEPEND="
+	$(python_gen_cond_dep 'dev-python/importlib_metadata[${PYTHON_USEDEP}]' python3_{6,7,8} )
+"
+
 BDEPEND="${PYTHON_DEPS}
 	dev-python/jinja[${PYTHON_USEDEP}]
 	dev-python/pillow[${PYTHON_USEDEP}]
