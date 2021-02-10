@@ -30,16 +30,16 @@ RDEPEND="
 	dev-libs/nss
 	dev-python/lxml[${PYTHON_USEDEP}]
 	>=net-proxy/mitmproxy-5.3.0[${PYTHON_USEDEP}]
-	dev-python/importlib_resources[${PYTHON_USEDEP}]
-	>=dev-python/appdirs-1.4.4[${PYTHON_USEDEP}]
-	dev-python/munch[${PYTHON_USEDEP}]
 	dev-python/adblockparser[${PYTHON_USEDEP}]
 	>=dev-python/beautifulsoup-4.4.1[${PYTHON_USEDEP}]
 	>=dev-python/psutil-5.7.0[${PYTHON_USEDEP}]
 	>=dev-python/py-re2-0.3.2[${PYTHON_USEDEP}]
+	$(python_gen_cond_dep 'dev-python/importlib_metadata[${PYTHON_USEDEP}]' python3_{6,7,8} )
 "
 
-DEPEND="${RDEPEND}
+BDEPEND="${PYTHON_DEPS}
+	>=dev-python/appdirs-1.4.4[${PYTHON_USEDEP}]
+	dev-python/munch[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
 "
 
